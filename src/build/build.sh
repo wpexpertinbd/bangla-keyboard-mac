@@ -38,6 +38,7 @@ productbuild --distribution "$BUILD/distribution.xml" --resources "$HERE/resourc
 # DMG
 rm -rf "$BUILD/dmg"; mkdir -p "$BUILD/dmg"
 cp "$DIST/Bangla Keyboard.pkg" "$BUILD/dmg/"
+cp "$HERE/Bangla Keyboard Setup.command" "$BUILD/dmg/"; chmod 755 "$BUILD/dmg/Bangla Keyboard Setup.command"
 cp "$ROOT/README.md" "$BUILD/dmg/Read Me.txt" 2>/dev/null || true
 find "$BUILD/dmg" -name '._*' -delete; xattr -cr "$BUILD/dmg" 2>/dev/null || true
 hdiutil create -volname "Bangla Keyboard" -srcfolder "$BUILD/dmg" -ov -format UDZO "$DIST/Bangla Keyboard.dmg" >/dev/null

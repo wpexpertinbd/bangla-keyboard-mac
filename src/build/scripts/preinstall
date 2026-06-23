@@ -1,0 +1,8 @@
+#!/bin/bash
+# Remove any previously-installed Bangla Keyboard layout files so a re-install
+# is always clean (prevents stale leftovers). Fonts are overwritten on install,
+# so they don't need removing here. Never touches other vendors' layouts.
+KL="/Library/Keyboard Layouts"
+rm -f "$KL/Bangla Unicode.keylayout" "$KL/Bangla Unicode.icns" \
+      "$KL/Bangla Classic.keylayout" "$KL/Bangla Classic.icns" 2>/dev/null || true
+exit 0
