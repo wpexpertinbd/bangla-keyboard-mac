@@ -1,7 +1,7 @@
 <?XML version="1.1" encoding="UTF-8"?>
 <!DOCTYPE keyboard PUBLIC "" "file://localhost/System/Library/DTDs/KeyboardLayout.dtd">
 <!--Last edited by Ukelele version 2.1.6 on 2011-07-30 at 18:46 (GMT+06:00)-->
-<keyboard group="126" id="-19007" name="Bangla Unicode" maxout="4">
+<keyboard group="126" id="-19008" name="Bangla Unicode" maxout="4">
     <layouts>
         <layout first="0" last="17" modifiers="Modifiers" mapSet="ANSI"/>
         <layout first="18" last="18" modifiers="Modifiers" mapSet="JIS"/>
@@ -557,58 +557,58 @@
   </keyMapSet>
     <actions>
         <action id="&#x0022;">
-            <when state="none" output="&#x0022;"/>
+            <when state="none" next="&#x0022;"/>
         </action>
         <action id="/">
-            <when state="none" output="/"/>
+            <when state="none" next="/"/>
         </action>
         <action id="1">
-            <when state="none" output="&#x09E7;"/>
+            <when state="none" next="1"/>
         </action>
         <action id="2">
-            <when state="none" output="&#x09E8;"/>
+            <when state="none" next="2"/>
         </action>
         <action id="2up">
-            <when state="none" output="&#x00B0;"/>
+            <when state="none" next="2up"/>
         </action>
         <action id="3up">
-            <when state="none" output="#"/>
+            <when state="none" next="3up"/>
         </action>
         <action id="4up">
-            <when state="none" output="&#x09F3;"/>
+            <when state="none" next="4up"/>
         </action>
         <action id="5up">
-            <when state="none" output="%"/>
+            <when state="none" next="5up"/>
         </action>
         <action id="6up">
-            <when state="none" output="^"/>
+            <when state="none" next="6up"/>
         </action>
         <action id="7up">
-            <when state="none" output="&#x0981;"/>
+            <when state="none" next="7up"/>
         </action>
         <action id="8up">
-            <when state="none" output="*"/>
+            <when state="none" next="8up"/>
         </action>
         <action id="9up">
-            <when state="none" output="("/>
+            <when state="none" next="9up"/>
         </action>
         <action id=":">
-            <when state="none" output=":"/>
+            <when state="none" next=":"/>
         </action>
         <action id=";">
-            <when state="none" output=";"/>
+            <when state="none" next=";"/>
         </action>
         <action id="?">
-            <when state="none" output="?"/>
+            <when state="none" next="?"/>
         </action>
         <action id="State 0">
-            <when state="none" output="'"/>
+            <when state="none" next="State 0"/>
         </action>
         <action id="[">
-            <when state="none" output="["/>
+            <when state="none" next="["/>
         </action>
         <action id="]">
-            <when state="none" output="]"/>
+            <when state="none" next="]"/>
         </action>
         <action id="a-kar"><when state="Pic_h" output="িএ"/><when state="Pec_h" output="েএ"/><when state="Poic_h" output="ৈএ"/><when state="ant-ja" output="য" next="Pe_float"/><when state="ants-a" output="য়" next="Pe_float"/><when state="ba" output="ব" next="Pe_float"/><when state="bha" output="ভ" next="Pe_float"/><when state="ccha" output="ছ" next="Pe_float"/><when state="cha" output="চ" next="Pe_float"/><when state="d-ra" output="ড়" next="Pe_float"/><when state="da" output="ড" next="Pe_float"/><when state="dha" output="ঢ" next="Pe_float"/><when state="dha-ra" output="ঢ়" next="Pe_float"/><when state="dhaa" output="ধ" next="Pe_float"/><when state="doa" output="দ" next="Pe_float"/><when state="ga" output="গ" next="Pe_float"/><when state="gha" output="ঘ" next="Pe_float"/><when state="ha" output="হ" next="Pe_float"/><when state="ja" output="জ" next="Pe_float"/><when state="jha" output="ঝ" next="Pe_float"/><when state="ka" output="ক" next="Pe_float"/><when state="kha" output="খ" next="Pe_float"/><when state="la" output="ল" next="Pe_float"/><when state="m-na" output="ণ" next="Pe_float"/><when state="m-sha" output="ষ" next="Pe_float"/><when state="ma" output="ম" next="Pe_float"/><when state="n-na" output="ন" next="Pe_float"/><when state="nio" output="ঞ" next="Pe_float"/><when state="pa" output="প" next="Pe_float"/><when state="pha" output="ফ" next="Pe_float"/><when state="ra" output="র" next="Pe_float"/><when state="s-sha" output="স" next="Pe_float"/><when state="t-sha" output="শ" next="Pe_float"/><when state="thoa" output="থ" next="Pe_float"/><when state="toa" output="ত" next="Pe_float"/><when state="tta" output="ট" next="Pe_float"/><when state="ttha" output="ঠ" next="Pe_float"/><when state="uyo" output="ঙ" next="Pe_float"/>
             <when state="none" next="a-kar"/>
@@ -618,174 +618,174 @@
             <when state="none" next="aa"/>
         </action>
         <action id="aa-kar"><when state="Pic_h" output="িআ"/><when state="Pec_h" output="েআ"/><when state="Poic_h" output="ৈআ"/>
-            <when state="none" output="&#x09BE;"/>
+            <when state="none" next="aa-kar"/>
             <when state="hasanta" next="hasanta__j"/>
             <when state="aa" output="আ"/>
         </action>
         <action id="ant-ja"><when state="Pi_float" next="Di_ant-ja"/><when state="Pe_float" next="De_ant-ja"/><when state="Po_float" next="Do_ant-ja"/><when state="Pic_h" output="্য" next="Pic"/><when state="Pec_h" output="্য" next="Pec"/><when state="Poic_h" output="্য" next="Poic"/><when state="rshee-kar" next="Di_ant-ja"/><when state="Pih" output="য" next="Pic"/><when state="a-kar" next="De_ant-ja"/><when state="Peh" output="য" next="Pec"/><when state="oi-kar" next="Do_ant-ja"/><when state="Poih" output="য" next="Poic"/>
-            <when state="none" output="&#x09AF;"/>
+            <when state="none" next="ant-ja"/>
         </action>
         <action id="ants-a"><when state="Pi_float" next="Di_ants-a"/><when state="Pe_float" next="De_ants-a"/><when state="Po_float" next="Do_ants-a"/><when state="Pic_h" output="্য়" next="Pic"/><when state="Pec_h" output="্য়" next="Pec"/><when state="Poic_h" output="্য়" next="Poic"/><when state="rshee-kar" next="Di_ants-a"/><when state="Pih" output="য়" next="Pic"/><when state="a-kar" next="De_ants-a"/><when state="Peh" output="য়" next="Pec"/><when state="oi-kar" next="Do_ants-a"/><when state="Poih" output="য়" next="Poic"/>
-            <when state="none" output="&#x09DF;"/>
+            <when state="none" next="ants-a"/>
         </action>
         <action id="anusher">
-            <when state="none" output="&#x0982;"/>
+            <when state="none" next="anusher"/>
         </action>
         <action id="b-shorgo">
-            <when state="none" output="&#x0983;"/>
+            <when state="none" next="b-shorgo"/>
         </action>
         <action id="ba"><when state="Pi_float" next="Di_ba"/><when state="Pe_float" next="De_ba"/><when state="Po_float" next="Do_ba"/><when state="Pic_h" output="্ব" next="Pic"/><when state="Pec_h" output="্ব" next="Pec"/><when state="Poic_h" output="্ব" next="Poic"/><when state="rshee-kar" next="Di_ba"/><when state="Pih" output="ব" next="Pic"/><when state="a-kar" next="De_ba"/><when state="Peh" output="ব" next="Pec"/><when state="oi-kar" next="Do_ba"/><when state="Poih" output="ব" next="Poic"/>
-            <when state="none" output="&#x09AC;"/>
+            <when state="none" next="ba"/>
         </action>
         <action id="bha"><when state="Pi_float" next="Di_bha"/><when state="Pe_float" next="De_bha"/><when state="Po_float" next="Do_bha"/><when state="Pic_h" output="্ভ" next="Pic"/><when state="Pec_h" output="্ভ" next="Pec"/><when state="Poic_h" output="্ভ" next="Poic"/><when state="rshee-kar" next="Di_bha"/><when state="Pih" output="ভ" next="Pic"/><when state="a-kar" next="De_bha"/><when state="Peh" output="ভ" next="Pec"/><when state="oi-kar" next="Do_bha"/><when state="Poih" output="ভ" next="Poic"/>
-            <when state="none" output="&#x09AD;"/>
+            <when state="none" next="bha"/>
         </action>
         <action id="ccha"><when state="Pi_float" next="Di_ccha"/><when state="Pe_float" next="De_ccha"/><when state="Po_float" next="Do_ccha"/><when state="Pic_h" output="্ছ" next="Pic"/><when state="Pec_h" output="্ছ" next="Pec"/><when state="Poic_h" output="্ছ" next="Poic"/><when state="rshee-kar" next="Di_ccha"/><when state="Pih" output="ছ" next="Pic"/><when state="a-kar" next="De_ccha"/><when state="Peh" output="ছ" next="Pec"/><when state="oi-kar" next="Do_ccha"/><when state="Poih" output="ছ" next="Poic"/>
-            <when state="none" output="&#x099B;"/>
+            <when state="none" next="ccha"/>
         </action>
         <action id="cha"><when state="Pi_float" next="Di_cha"/><when state="Pe_float" next="De_cha"/><when state="Po_float" next="Do_cha"/><when state="Pic_h" output="্চ" next="Pic"/><when state="Pec_h" output="্চ" next="Pec"/><when state="Poic_h" output="্চ" next="Poic"/><when state="rshee-kar" next="Di_cha"/><when state="Pih" output="চ" next="Pic"/><when state="a-kar" next="De_cha"/><when state="Peh" output="চ" next="Pec"/><when state="oi-kar" next="Do_cha"/><when state="Poih" output="চ" next="Poic"/>
-            <when state="none" output="&#x099A;"/>
+            <when state="none" next="cha"/>
         </action>
         <action id="d-ra"><when state="Pi_float" next="Di_d-ra"/><when state="Pe_float" next="De_d-ra"/><when state="Po_float" next="Do_d-ra"/><when state="Pic_h" output="্ড়" next="Pic"/><when state="Pec_h" output="্ড়" next="Pec"/><when state="Poic_h" output="্ড়" next="Poic"/><when state="rshee-kar" next="Di_d-ra"/><when state="Pih" output="ড়" next="Pic"/><when state="a-kar" next="De_d-ra"/><when state="Peh" output="ড়" next="Pec"/><when state="oi-kar" next="Do_d-ra"/><when state="Poih" output="ড়" next="Poic"/>
-            <when state="none" output="&#x09DC;"/>
+            <when state="none" next="d-ra"/>
         </action>
         <action id="da"><when state="Pi_float" next="Di_da"/><when state="Pe_float" next="De_da"/><when state="Po_float" next="Do_da"/><when state="Pic_h" output="্ড" next="Pic"/><when state="Pec_h" output="্ড" next="Pec"/><when state="Poic_h" output="্ড" next="Poic"/><when state="rshee-kar" next="Di_da"/><when state="Pih" output="ড" next="Pic"/><when state="a-kar" next="De_da"/><when state="Peh" output="ড" next="Pec"/><when state="oi-kar" next="Do_da"/><when state="Poih" output="ড" next="Poic"/>
-            <when state="none" output="&#x09A1;"/>
+            <when state="none" next="da"/>
         </action>
         <action id="dari">
-            <when state="none" output="&#x0964;"/>
+            <when state="none" next="dari"/>
         </action>
         <action id="dha"><when state="Pi_float" next="Di_dha"/><when state="Pe_float" next="De_dha"/><when state="Po_float" next="Do_dha"/><when state="Pic_h" output="্ঢ" next="Pic"/><when state="Pec_h" output="্ঢ" next="Pec"/><when state="Poic_h" output="্ঢ" next="Poic"/><when state="rshee-kar" next="Di_dha"/><when state="Pih" output="ঢ" next="Pic"/><when state="a-kar" next="De_dha"/><when state="Peh" output="ঢ" next="Pec"/><when state="oi-kar" next="Do_dha"/><when state="Poih" output="ঢ" next="Poic"/>
-            <when state="none" output="&#x09A2;"/>
+            <when state="none" next="dha"/>
         </action>
         <action id="dha-ra"><when state="Pi_float" next="Di_dha-ra"/><when state="Pe_float" next="De_dha-ra"/><when state="Po_float" next="Do_dha-ra"/><when state="Pic_h" output="্ঢ়" next="Pic"/><when state="Pec_h" output="্ঢ়" next="Pec"/><when state="Poic_h" output="্ঢ়" next="Poic"/><when state="rshee-kar" next="Di_dha-ra"/><when state="Pih" output="ঢ়" next="Pic"/><when state="a-kar" next="De_dha-ra"/><when state="Peh" output="ঢ়" next="Pec"/><when state="oi-kar" next="Do_dha-ra"/><when state="Poih" output="ঢ়" next="Poic"/>
-            <when state="none" output="&#x09DD;"/>
+            <when state="none" next="dha-ra"/>
         </action>
         <action id="dhaa"><when state="Pi_float" next="Di_dhaa"/><when state="Pe_float" next="De_dhaa"/><when state="Po_float" next="Do_dhaa"/><when state="Pic_h" output="্ধ" next="Pic"/><when state="Pec_h" output="্ধ" next="Pec"/><when state="Poic_h" output="্ধ" next="Poic"/><when state="rshee-kar" next="Di_dhaa"/><when state="Pih" output="ধ" next="Pic"/><when state="a-kar" next="De_dhaa"/><when state="Peh" output="ধ" next="Pec"/><when state="oi-kar" next="Do_dhaa"/><when state="Poih" output="ধ" next="Poic"/>
-            <when state="none" output="&#x09A7;"/>
+            <when state="none" next="dhaa"/>
         </action>
         <action id="dhree-kar"><when state="Pic_h" output="িঈ"/><when state="Pec_h" output="েঈ"/><when state="Poic_h" output="ৈঈ"/>
-            <when state="none" output="&#x09C0;"/>
+            <when state="none" next="dhree-kar"/>
             <when state="hasanta" next="hasanta_dhree-kar"/>
         </action>
         <action id="doa"><when state="Pi_float" next="Di_doa"/><when state="Pe_float" next="De_doa"/><when state="Po_float" next="Do_doa"/><when state="Pic_h" output="্দ" next="Pic"/><when state="Pec_h" output="্দ" next="Pec"/><when state="Poic_h" output="্দ" next="Poic"/><when state="rshee-kar" next="Di_doa"/><when state="Pih" output="দ" next="Pic"/><when state="a-kar" next="De_doa"/><when state="Peh" output="দ" next="Pec"/><when state="oi-kar" next="Do_doa"/><when state="Poih" output="দ" next="Poic"/>
-            <when state="none" output="&#x09A6;"/>
+            <when state="none" next="doa"/>
         </action>
         <action id="dru-kar"><when state="Pic_h" output="িঊ"/><when state="Pec_h" output="েঊ"/><when state="Poic_h" output="ৈঊ"/>
-            <when state="none" output="&#x09C2;"/>
+            <when state="none" next="dru-kar"/>
             <when state="hasanta" next="hasanta_dru-kar"/>
         </action>
         <action id="eight">
-            <when state="none" output="&#x09EE;"/>
+            <when state="none" next="eight"/>
         </action>
         <action id="five">
-            <when state="none" output="&#x09EB;"/>
+            <when state="none" next="five"/>
         </action>
         <action id="four">
-            <when state="none" output="&#x09EA;"/>
+            <when state="none" next="four"/>
         </action>
         <action id="ga"><when state="Pi_float" next="Di_ga"/><when state="Pe_float" next="De_ga"/><when state="Po_float" next="Do_ga"/><when state="Pic_h" output="্গ" next="Pic"/><when state="Pec_h" output="্গ" next="Pec"/><when state="Poic_h" output="্গ" next="Poic"/><when state="rshee-kar" next="Di_ga"/><when state="Pih" output="গ" next="Pic"/><when state="a-kar" next="De_ga"/><when state="Peh" output="গ" next="Pec"/><when state="oi-kar" next="Do_ga"/><when state="Poih" output="গ" next="Poic"/>
-            <when state="none" output="&#x0997;"/>
+            <when state="none" next="ga"/>
         </action>
         <action id="gha"><when state="Pi_float" next="Di_gha"/><when state="Pe_float" next="De_gha"/><when state="Po_float" next="Do_gha"/><when state="Pic_h" output="্ঘ" next="Pic"/><when state="Pec_h" output="্ঘ" next="Pec"/><when state="Poic_h" output="্ঘ" next="Poic"/><when state="rshee-kar" next="Di_gha"/><when state="Pih" output="ঘ" next="Pic"/><when state="a-kar" next="De_gha"/><when state="Peh" output="ঘ" next="Pec"/><when state="oi-kar" next="Do_gha"/><when state="Poih" output="ঘ" next="Poic"/>
-            <when state="none" output="&#x0998;"/>
+            <when state="none" next="gha"/>
         </action>
         <action id="ha"><when state="Pi_float" next="Di_ha"/><when state="Pe_float" next="De_ha"/><when state="Po_float" next="Do_ha"/><when state="Pic_h" output="্হ" next="Pic"/><when state="Pec_h" output="্হ" next="Pec"/><when state="Poic_h" output="্হ" next="Poic"/><when state="rshee-kar" next="Di_ha"/><when state="Pih" output="হ" next="Pic"/><when state="a-kar" next="De_ha"/><when state="Peh" output="হ" next="Pec"/><when state="oi-kar" next="Do_ha"/><when state="Poih" output="হ" next="Poic"/>
-            <when state="none" output="&#x09B9;"/>
+            <when state="none" next="ha"/>
         </action>
         <action id="hasanta"><when state="Pi_float" next="Pic_h"/><when state="Pe_float" next="Pec_h"/><when state="Po_float" next="Poic_h"/><when state="Pic_h" output="ি্‌"/><when state="Pec_h" output="ে্‌"/><when state="Poic_h" output="ৈ্‌"/><when state="Di_ant-ja" output="য" next="Pic_h"/><when state="De_ant-ja" output="য" next="Pec_h"/><when state="Do_ant-ja" output="য" next="Poic_h"/><when state="Di_ants-a" output="য়" next="Pic_h"/><when state="De_ants-a" output="য়" next="Pec_h"/><when state="Do_ants-a" output="য়" next="Poic_h"/><when state="Di_ba" output="ব" next="Pic_h"/><when state="De_ba" output="ব" next="Pec_h"/><when state="Do_ba" output="ব" next="Poic_h"/><when state="Di_bha" output="ভ" next="Pic_h"/><when state="De_bha" output="ভ" next="Pec_h"/><when state="Do_bha" output="ভ" next="Poic_h"/><when state="Di_ccha" output="ছ" next="Pic_h"/><when state="De_ccha" output="ছ" next="Pec_h"/><when state="Do_ccha" output="ছ" next="Poic_h"/><when state="Di_cha" output="চ" next="Pic_h"/><when state="De_cha" output="চ" next="Pec_h"/><when state="Do_cha" output="চ" next="Poic_h"/><when state="Di_d-ra" output="ড়" next="Pic_h"/><when state="De_d-ra" output="ড়" next="Pec_h"/><when state="Do_d-ra" output="ড়" next="Poic_h"/><when state="Di_da" output="ড" next="Pic_h"/><when state="De_da" output="ড" next="Pec_h"/><when state="Do_da" output="ড" next="Poic_h"/><when state="Di_dha" output="ঢ" next="Pic_h"/><when state="De_dha" output="ঢ" next="Pec_h"/><when state="Do_dha" output="ঢ" next="Poic_h"/><when state="Di_dha-ra" output="ঢ়" next="Pic_h"/><when state="De_dha-ra" output="ঢ়" next="Pec_h"/><when state="Do_dha-ra" output="ঢ়" next="Poic_h"/><when state="Di_dhaa" output="ধ" next="Pic_h"/><when state="De_dhaa" output="ধ" next="Pec_h"/><when state="Do_dhaa" output="ধ" next="Poic_h"/><when state="Di_doa" output="দ" next="Pic_h"/><when state="De_doa" output="দ" next="Pec_h"/><when state="Do_doa" output="দ" next="Poic_h"/><when state="Di_ga" output="গ" next="Pic_h"/><when state="De_ga" output="গ" next="Pec_h"/><when state="Do_ga" output="গ" next="Poic_h"/><when state="Di_gha" output="ঘ" next="Pic_h"/><when state="De_gha" output="ঘ" next="Pec_h"/><when state="Do_gha" output="ঘ" next="Poic_h"/><when state="Di_ha" output="হ" next="Pic_h"/><when state="De_ha" output="হ" next="Pec_h"/><when state="Do_ha" output="হ" next="Poic_h"/><when state="Di_ja" output="জ" next="Pic_h"/><when state="De_ja" output="জ" next="Pec_h"/><when state="Do_ja" output="জ" next="Poic_h"/><when state="Di_jha" output="ঝ" next="Pic_h"/><when state="De_jha" output="ঝ" next="Pec_h"/><when state="Do_jha" output="ঝ" next="Poic_h"/><when state="Di_ka" output="ক" next="Pic_h"/><when state="De_ka" output="ক" next="Pec_h"/><when state="Do_ka" output="ক" next="Poic_h"/><when state="Di_kha" output="খ" next="Pic_h"/><when state="De_kha" output="খ" next="Pec_h"/><when state="Do_kha" output="খ" next="Poic_h"/><when state="Di_la" output="ল" next="Pic_h"/><when state="De_la" output="ল" next="Pec_h"/><when state="Do_la" output="ল" next="Poic_h"/><when state="Di_m-na" output="ণ" next="Pic_h"/><when state="De_m-na" output="ণ" next="Pec_h"/><when state="Do_m-na" output="ণ" next="Poic_h"/><when state="Di_m-sha" output="ষ" next="Pic_h"/><when state="De_m-sha" output="ষ" next="Pec_h"/><when state="Do_m-sha" output="ষ" next="Poic_h"/><when state="Di_ma" output="ম" next="Pic_h"/><when state="De_ma" output="ম" next="Pec_h"/><when state="Do_ma" output="ম" next="Poic_h"/><when state="Di_n-na" output="ন" next="Pic_h"/><when state="De_n-na" output="ন" next="Pec_h"/><when state="Do_n-na" output="ন" next="Poic_h"/><when state="Di_nio" output="ঞ" next="Pic_h"/><when state="De_nio" output="ঞ" next="Pec_h"/><when state="Do_nio" output="ঞ" next="Poic_h"/><when state="Di_pa" output="প" next="Pic_h"/><when state="De_pa" output="প" next="Pec_h"/><when state="Do_pa" output="প" next="Poic_h"/><when state="Di_pha" output="ফ" next="Pic_h"/><when state="De_pha" output="ফ" next="Pec_h"/><when state="Do_pha" output="ফ" next="Poic_h"/><when state="Di_ra" output="র" next="Pic_h"/><when state="De_ra" output="র" next="Pec_h"/><when state="Do_ra" output="র" next="Poic_h"/><when state="Di_s-sha" output="স" next="Pic_h"/><when state="De_s-sha" output="স" next="Pec_h"/><when state="Do_s-sha" output="স" next="Poic_h"/><when state="Di_t-sha" output="শ" next="Pic_h"/><when state="De_t-sha" output="শ" next="Pec_h"/><when state="Do_t-sha" output="শ" next="Poic_h"/><when state="Di_thoa" output="থ" next="Pic_h"/><when state="De_thoa" output="থ" next="Pec_h"/><when state="Do_thoa" output="থ" next="Poic_h"/><when state="Di_toa" output="ত" next="Pic_h"/><when state="De_toa" output="ত" next="Pec_h"/><when state="Do_toa" output="ত" next="Poic_h"/><when state="Di_tta" output="ট" next="Pic_h"/><when state="De_tta" output="ট" next="Pec_h"/><when state="Do_tta" output="ট" next="Poic_h"/><when state="Di_ttha" output="ঠ" next="Pic_h"/><when state="De_ttha" output="ঠ" next="Pec_h"/><when state="Do_ttha" output="ঠ" next="Poic_h"/><when state="Di_uyo" output="ঙ" next="Pic_h"/><when state="De_uyo" output="ঙ" next="Pec_h"/><when state="Do_uyo" output="ঙ" next="Poic_h"/><when state="Pic" next="Pic_h"/><when state="Pec" next="Pec_h"/><when state="Poic" next="Poic_h"/>
             <when state="none" next="hasanta"/>
             <when state="hasanta" next="hasanta_2"/>
         </action>
         <action id="ja"><when state="Pi_float" next="Di_ja"/><when state="Pe_float" next="De_ja"/><when state="Po_float" next="Do_ja"/><when state="Pic_h" output="্জ" next="Pic"/><when state="Pec_h" output="্জ" next="Pec"/><when state="Poic_h" output="্জ" next="Poic"/><when state="rshee-kar" next="Di_ja"/><when state="Pih" output="জ" next="Pic"/><when state="a-kar" next="De_ja"/><when state="Peh" output="জ" next="Pec"/><when state="oi-kar" next="Do_ja"/><when state="Poih" output="জ" next="Poic"/>
-            <when state="none" output="&#x099C;"/>
+            <when state="none" next="ja"/>
         </action>
         <action id="ja-fola"><when state="Pi_float" output="্য" next="Pic"/><when state="Pe_float" output="্য" next="Pec"/><when state="Po_float" output="্য" next="Poic"/><when state="Di_ant-ja" output="য্য" next="Pic"/><when state="De_ant-ja" output="য্য" next="Pec"/><when state="Do_ant-ja" output="য্য" next="Poic"/><when state="Di_ants-a" output="য়্য" next="Pic"/><when state="De_ants-a" output="য়্য" next="Pec"/><when state="Do_ants-a" output="য়্য" next="Poic"/><when state="Di_ba" output="ব্য" next="Pic"/><when state="De_ba" output="ব্য" next="Pec"/><when state="Do_ba" output="ব্য" next="Poic"/><when state="Di_bha" output="ভ্য" next="Pic"/><when state="De_bha" output="ভ্য" next="Pec"/><when state="Do_bha" output="ভ্য" next="Poic"/><when state="Di_ccha" output="ছ্য" next="Pic"/><when state="De_ccha" output="ছ্য" next="Pec"/><when state="Do_ccha" output="ছ্য" next="Poic"/><when state="Di_cha" output="চ্য" next="Pic"/><when state="De_cha" output="চ্য" next="Pec"/><when state="Do_cha" output="চ্য" next="Poic"/><when state="Di_d-ra" output="ড়্য" next="Pic"/><when state="De_d-ra" output="ড়্য" next="Pec"/><when state="Do_d-ra" output="ড়্য" next="Poic"/><when state="Di_da" output="ড্য" next="Pic"/><when state="De_da" output="ড্য" next="Pec"/><when state="Do_da" output="ড্য" next="Poic"/><when state="Di_dha" output="ঢ্য" next="Pic"/><when state="De_dha" output="ঢ্য" next="Pec"/><when state="Do_dha" output="ঢ্য" next="Poic"/><when state="Di_dha-ra" output="ঢ়্য" next="Pic"/><when state="De_dha-ra" output="ঢ়্য" next="Pec"/><when state="Do_dha-ra" output="ঢ়্য" next="Poic"/><when state="Di_dhaa" output="ধ্য" next="Pic"/><when state="De_dhaa" output="ধ্য" next="Pec"/><when state="Do_dhaa" output="ধ্য" next="Poic"/><when state="Di_doa" output="দ্য" next="Pic"/><when state="De_doa" output="দ্য" next="Pec"/><when state="Do_doa" output="দ্য" next="Poic"/><when state="Di_ga" output="গ্য" next="Pic"/><when state="De_ga" output="গ্য" next="Pec"/><when state="Do_ga" output="গ্য" next="Poic"/><when state="Di_gha" output="ঘ্য" next="Pic"/><when state="De_gha" output="ঘ্য" next="Pec"/><when state="Do_gha" output="ঘ্য" next="Poic"/><when state="Di_ha" output="হ্য" next="Pic"/><when state="De_ha" output="হ্য" next="Pec"/><when state="Do_ha" output="হ্য" next="Poic"/><when state="Di_ja" output="জ্য" next="Pic"/><when state="De_ja" output="জ্য" next="Pec"/><when state="Do_ja" output="জ্য" next="Poic"/><when state="Di_jha" output="ঝ্য" next="Pic"/><when state="De_jha" output="ঝ্য" next="Pec"/><when state="Do_jha" output="ঝ্য" next="Poic"/><when state="Di_ka" output="ক্য" next="Pic"/><when state="De_ka" output="ক্য" next="Pec"/><when state="Do_ka" output="ক্য" next="Poic"/><when state="Di_kha" output="খ্য" next="Pic"/><when state="De_kha" output="খ্য" next="Pec"/><when state="Do_kha" output="খ্য" next="Poic"/><when state="Di_la" output="ল্য" next="Pic"/><when state="De_la" output="ল্য" next="Pec"/><when state="Do_la" output="ল্য" next="Poic"/><when state="Di_m-na" output="ণ্য" next="Pic"/><when state="De_m-na" output="ণ্য" next="Pec"/><when state="Do_m-na" output="ণ্য" next="Poic"/><when state="Di_m-sha" output="ষ্য" next="Pic"/><when state="De_m-sha" output="ষ্য" next="Pec"/><when state="Do_m-sha" output="ষ্য" next="Poic"/><when state="Di_ma" output="ম্য" next="Pic"/><when state="De_ma" output="ম্য" next="Pec"/><when state="Do_ma" output="ম্য" next="Poic"/><when state="Di_n-na" output="ন্য" next="Pic"/><when state="De_n-na" output="ন্য" next="Pec"/><when state="Do_n-na" output="ন্য" next="Poic"/><when state="Di_nio" output="ঞ্য" next="Pic"/><when state="De_nio" output="ঞ্য" next="Pec"/><when state="Do_nio" output="ঞ্য" next="Poic"/><when state="Di_pa" output="প্য" next="Pic"/><when state="De_pa" output="প্য" next="Pec"/><when state="Do_pa" output="প্য" next="Poic"/><when state="Di_pha" output="ফ্য" next="Pic"/><when state="De_pha" output="ফ্য" next="Pec"/><when state="Do_pha" output="ফ্য" next="Poic"/><when state="Di_ra" output="র্য" next="Pic"/><when state="De_ra" output="র্য" next="Pec"/><when state="Do_ra" output="র্য" next="Poic"/><when state="Di_s-sha" output="স্য" next="Pic"/><when state="De_s-sha" output="স্য" next="Pec"/><when state="Do_s-sha" output="স্য" next="Poic"/><when state="Di_t-sha" output="শ্য" next="Pic"/><when state="De_t-sha" output="শ্য" next="Pec"/><when state="Do_t-sha" output="শ্য" next="Poic"/><when state="Di_thoa" output="থ্য" next="Pic"/><when state="De_thoa" output="থ্য" next="Pec"/><when state="Do_thoa" output="থ্য" next="Poic"/><when state="Di_toa" output="ত্য" next="Pic"/><when state="De_toa" output="ত্য" next="Pec"/><when state="Do_toa" output="ত্য" next="Poic"/><when state="Di_tta" output="ট্য" next="Pic"/><when state="De_tta" output="ট্য" next="Pec"/><when state="Do_tta" output="ট্য" next="Poic"/><when state="Di_ttha" output="ঠ্য" next="Pic"/><when state="De_ttha" output="ঠ্য" next="Pec"/><when state="Do_ttha" output="ঠ্য" next="Poic"/><when state="Di_uyo" output="ঙ্য" next="Pic"/><when state="De_uyo" output="ঙ্য" next="Pec"/><when state="Do_uyo" output="ঙ্য" next="Poic"/><when state="Pic" output="্য" next="Pic"/><when state="Pec" output="্য" next="Pec"/><when state="Poic" output="্য" next="Poic"/>
             <when state="none" next="ja-fola"/>
             <when state="ra" next="ra_ja-fola"/>
         </action>
         <action id="jha"><when state="Pi_float" next="Di_jha"/><when state="Pe_float" next="De_jha"/><when state="Po_float" next="Do_jha"/><when state="Pic_h" output="্ঝ" next="Pic"/><when state="Pec_h" output="্ঝ" next="Pec"/><when state="Poic_h" output="্ঝ" next="Poic"/><when state="rshee-kar" next="Di_jha"/><when state="Pih" output="ঝ" next="Pic"/><when state="a-kar" next="De_jha"/><when state="Peh" output="ঝ" next="Pec"/><when state="oi-kar" next="Do_jha"/><when state="Poih" output="ঝ" next="Poic"/>
-            <when state="none" output="&#x099D;"/>
+            <when state="none" next="jha"/>
         </action>
         <action id="ka"><when state="Pi_float" next="Di_ka"/><when state="Pe_float" next="De_ka"/><when state="Po_float" next="Do_ka"/><when state="Pic_h" output="্ক" next="Pic"/><when state="Pec_h" output="্ক" next="Pec"/><when state="Poic_h" output="্ক" next="Poic"/><when state="rshee-kar" next="Di_ka"/><when state="Pih" output="ক" next="Pic"/><when state="a-kar" next="De_ka"/><when state="Peh" output="ক" next="Pec"/><when state="oi-kar" next="Do_ka"/><when state="Poih" output="ক" next="Poic"/>
-            <when state="none" output="&#x0995;"/>
+            <when state="none" next="ka"/>
         </action>
         <action id="kha"><when state="Pi_float" next="Di_kha"/><when state="Pe_float" next="De_kha"/><when state="Po_float" next="Do_kha"/><when state="Pic_h" output="্খ" next="Pic"/><when state="Pec_h" output="্খ" next="Pec"/><when state="Poic_h" output="্খ" next="Poic"/><when state="rshee-kar" next="Di_kha"/><when state="Pih" output="খ" next="Pic"/><when state="a-kar" next="De_kha"/><when state="Peh" output="খ" next="Pec"/><when state="oi-kar" next="Do_kha"/><when state="Poih" output="খ" next="Poic"/>
-            <when state="none" output="&#x0996;"/>
+            <when state="none" next="kha"/>
         </action>
         <action id="khand-t">
-            <when state="none" output="&#x09CE;"/>
+            <when state="none" next="khand-t"/>
         </action>
         <action id="la"><when state="Pi_float" next="Di_la"/><when state="Pe_float" next="De_la"/><when state="Po_float" next="Do_la"/><when state="Pic_h" output="্ল" next="Pic"/><when state="Pec_h" output="্ল" next="Pec"/><when state="Poic_h" output="্ল" next="Poic"/><when state="rshee-kar" next="Di_la"/><when state="Pih" output="ল" next="Pic"/><when state="a-kar" next="De_la"/><when state="Peh" output="ল" next="Pec"/><when state="oi-kar" next="Do_la"/><when state="Poih" output="ল" next="Poic"/>
-            <when state="none" output="&#x09B2;"/>
+            <when state="none" next="la"/>
         </action>
         <action id="m&#x003C;">
-            <when state="none" output="&#x003C;"/>
+            <when state="none" next="m&#x003C;"/>
         </action>
         <action id="m&#x003E;">
-            <when state="none" output="&#x003E;"/>
+            <when state="none" next="m&#x003E;"/>
         </action>
         <action id="m,">
-            <when state="none" output=","/>
+            <when state="none" next="m,"/>
         </action>
         <action id="m-na"><when state="Pi_float" next="Di_m-na"/><when state="Pe_float" next="De_m-na"/><when state="Po_float" next="Do_m-na"/><when state="Pic_h" output="্ণ" next="Pic"/><when state="Pec_h" output="্ণ" next="Pec"/><when state="Poic_h" output="্ণ" next="Poic"/><when state="rshee-kar" next="Di_m-na"/><when state="Pih" output="ণ" next="Pic"/><when state="a-kar" next="De_m-na"/><when state="Peh" output="ণ" next="Pec"/><when state="oi-kar" next="Do_m-na"/><when state="Poih" output="ণ" next="Poic"/>
-            <when state="none" output="&#x09A3;"/>
+            <when state="none" next="m-na"/>
         </action>
         <action id="m-sha"><when state="Pi_float" next="Di_m-sha"/><when state="Pe_float" next="De_m-sha"/><when state="Po_float" next="Do_m-sha"/><when state="Pic_h" output="্ষ" next="Pic"/><when state="Pec_h" output="্ষ" next="Pec"/><when state="Poic_h" output="্ষ" next="Poic"/><when state="rshee-kar" next="Di_m-sha"/><when state="Pih" output="ষ" next="Pic"/><when state="a-kar" next="De_m-sha"/><when state="Peh" output="ষ" next="Pec"/><when state="oi-kar" next="Do_m-sha"/><when state="Poih" output="ষ" next="Poic"/>
-            <when state="none" output="&#x09B7;"/>
+            <when state="none" next="m-sha"/>
         </action>
         <action id="m.">
-            <when state="none" output="."/>
+            <when state="none" next="m."/>
         </action>
         <action id="ma"><when state="Pi_float" next="Di_ma"/><when state="Pe_float" next="De_ma"/><when state="Po_float" next="Do_ma"/><when state="Pic_h" output="্ম" next="Pic"/><when state="Pec_h" output="্ম" next="Pec"/><when state="Poic_h" output="্ম" next="Poic"/><when state="rshee-kar" next="Di_ma"/><when state="Pih" output="ম" next="Pic"/><when state="a-kar" next="De_ma"/><when state="Peh" output="ম" next="Pec"/><when state="oi-kar" next="Do_ma"/><when state="Poih" output="ম" next="Poic"/>
-            <when state="none" output="&#x09AE;"/>
+            <when state="none" next="ma"/>
         </action>
         <action id="n-na"><when state="Pi_float" next="Di_n-na"/><when state="Pe_float" next="De_n-na"/><when state="Po_float" next="Do_n-na"/><when state="Pic_h" output="্ন" next="Pic"/><when state="Pec_h" output="্ন" next="Pec"/><when state="Poic_h" output="্ন" next="Poic"/><when state="rshee-kar" next="Di_n-na"/><when state="Pih" output="ন" next="Pic"/><when state="a-kar" next="De_n-na"/><when state="Peh" output="ন" next="Pec"/><when state="oi-kar" next="Do_n-na"/><when state="Poih" output="ন" next="Poic"/>
-            <when state="none" output="&#x09A8;"/>
+            <when state="none" next="n-na"/>
         </action>
         <action id="nine">
-            <when state="none" output="&#x09EF;"/>
+            <when state="none" next="nine"/>
         </action>
         <action id="nio"><when state="Pi_float" next="Di_nio"/><when state="Pe_float" next="De_nio"/><when state="Po_float" next="Do_nio"/><when state="Pic_h" output="্ঞ" next="Pic"/><when state="Pec_h" output="্ঞ" next="Pec"/><when state="Poic_h" output="্ঞ" next="Poic"/><when state="rshee-kar" next="Di_nio"/><when state="Pih" output="ঞ" next="Pic"/><when state="a-kar" next="De_nio"/><when state="Peh" output="ঞ" next="Pec"/><when state="oi-kar" next="Do_nio"/><when state="Poih" output="ঞ" next="Poic"/>
-            <when state="none" output="&#x099E;"/>
+            <when state="none" next="nio"/>
         </action>
         <action id="oUP">
-            <when state="none" output=")"/>
+            <when state="none" next="oUP"/>
         </action>
         <action id="oi-kar"><when state="Pic_h" output="িঐ"/><when state="Pec_h" output="েঐ"/><when state="Poic_h" output="ৈঐ"/><when state="ant-ja" output="য" next="Po_float"/><when state="ants-a" output="য়" next="Po_float"/><when state="ba" output="ব" next="Po_float"/><when state="bha" output="ভ" next="Po_float"/><when state="ccha" output="ছ" next="Po_float"/><when state="cha" output="চ" next="Po_float"/><when state="d-ra" output="ড়" next="Po_float"/><when state="da" output="ড" next="Po_float"/><when state="dha" output="ঢ" next="Po_float"/><when state="dha-ra" output="ঢ়" next="Po_float"/><when state="dhaa" output="ধ" next="Po_float"/><when state="doa" output="দ" next="Po_float"/><when state="ga" output="গ" next="Po_float"/><when state="gha" output="ঘ" next="Po_float"/><when state="ha" output="হ" next="Po_float"/><when state="ja" output="জ" next="Po_float"/><when state="jha" output="ঝ" next="Po_float"/><when state="ka" output="ক" next="Po_float"/><when state="kha" output="খ" next="Po_float"/><when state="la" output="ল" next="Po_float"/><when state="m-na" output="ণ" next="Po_float"/><when state="m-sha" output="ষ" next="Po_float"/><when state="ma" output="ম" next="Po_float"/><when state="n-na" output="ন" next="Po_float"/><when state="nio" output="ঞ" next="Po_float"/><when state="pa" output="প" next="Po_float"/><when state="pha" output="ফ" next="Po_float"/><when state="ra" output="র" next="Po_float"/><when state="s-sha" output="স" next="Po_float"/><when state="t-sha" output="শ" next="Po_float"/><when state="thoa" output="থ" next="Po_float"/><when state="toa" output="ত" next="Po_float"/><when state="tta" output="ট" next="Po_float"/><when state="ttha" output="ঠ" next="Po_float"/><when state="uyo" output="ঙ" next="Po_float"/>
             <when state="none" next="oi-kar"/>
             <when state="hasanta" next="hasanta_oi-kar"/>
         </action>
         <action id="oneup">
-            <when state="none" output="!"/>
+            <when state="none" next="oneup"/>
         </action>
         <action id="ou">
-            <when state="none" output="&#x0993;"/>
+            <when state="none" next="ou"/>
         </action>
         <action id="ou-kar"><when state="Pic_h" output="িঔ"/><when state="Pec_h" output="েঔ"/><when state="Poic_h" output="ৈঔ"/>
-            <when state="none" output="&#x09D7;"/>
+            <when state="none" next="ou-kar"/>
             <when state="hasanta" next="hasanta_ou-kar"/>
         </action>
         <action id="pa"><when state="Pi_float" next="Di_pa"/><when state="Pe_float" next="De_pa"/><when state="Po_float" next="Do_pa"/><when state="Pic_h" output="্প" next="Pic"/><when state="Pec_h" output="্প" next="Pec"/><when state="Poic_h" output="্প" next="Poic"/><when state="rshee-kar" next="Di_pa"/><when state="Pih" output="প" next="Pic"/><when state="a-kar" next="De_pa"/><when state="Peh" output="প" next="Pec"/><when state="oi-kar" next="Do_pa"/><when state="Poih" output="প" next="Poic"/>
-            <when state="none" output="&#x09AA;"/>
+            <when state="none" next="pa"/>
         </action>
         <action id="pha"><when state="Pi_float" next="Di_pha"/><when state="Pe_float" next="De_pha"/><when state="Po_float" next="Do_pha"/><when state="Pic_h" output="্ফ" next="Pic"/><when state="Pec_h" output="্ফ" next="Pec"/><when state="Poic_h" output="্ফ" next="Poic"/><when state="rshee-kar" next="Di_pha"/><when state="Pih" output="ফ" next="Pic"/><when state="a-kar" next="De_pha"/><when state="Peh" output="ফ" next="Pec"/><when state="oi-kar" next="Do_pha"/><when state="Poih" output="ফ" next="Poic"/>
-            <when state="none" output="&#x09AB;"/>
+            <when state="none" next="pha"/>
         </action>
         <action id="qw1">
-            <when state="none" output="&#x2014;"/>
+            <when state="none" next="qw1"/>
         </action>
         <action id="qw2">
-            <when state="none" output="&#x201A;"/>
+            <when state="none" next="qw2"/>
         </action>
         <action id="ra"><when state="Pi_float" next="Di_ra"/><when state="Pe_float" next="De_ra"/><when state="Po_float" next="Do_ra"/><when state="Pic_h" output="্র" next="Pic"/><when state="Pec_h" output="্র" next="Pec"/><when state="Poic_h" output="্র" next="Poic"/><when state="rshee-kar" next="Di_ra"/><when state="Pih" output="র" next="Pic"/><when state="a-kar" next="De_ra"/><when state="Peh" output="র" next="Pec"/><when state="oi-kar" next="Do_ra"/><when state="Poih" output="র" next="Poic"/>
-            <when state="none" output="&#x09B0;"/>
+            <when state="none" next="ra"/>
         </action>
         <action id="ra-fola"><when state="Pi_float" output="্র" next="Pic"/><when state="Pe_float" output="্র" next="Pec"/><when state="Po_float" output="্র" next="Poic"/><when state="Di_ant-ja" output="য্র" next="Pic"/><when state="De_ant-ja" output="য্র" next="Pec"/><when state="Do_ant-ja" output="য্র" next="Poic"/><when state="Di_ants-a" output="য়্র" next="Pic"/><when state="De_ants-a" output="য়্র" next="Pec"/><when state="Do_ants-a" output="য়্র" next="Poic"/><when state="Di_ba" output="ব্র" next="Pic"/><when state="De_ba" output="ব্র" next="Pec"/><when state="Do_ba" output="ব্র" next="Poic"/><when state="Di_bha" output="ভ্র" next="Pic"/><when state="De_bha" output="ভ্র" next="Pec"/><when state="Do_bha" output="ভ্র" next="Poic"/><when state="Di_ccha" output="ছ্র" next="Pic"/><when state="De_ccha" output="ছ্র" next="Pec"/><when state="Do_ccha" output="ছ্র" next="Poic"/><when state="Di_cha" output="চ্র" next="Pic"/><when state="De_cha" output="চ্র" next="Pec"/><when state="Do_cha" output="চ্র" next="Poic"/><when state="Di_d-ra" output="ড়্র" next="Pic"/><when state="De_d-ra" output="ড়্র" next="Pec"/><when state="Do_d-ra" output="ড়্র" next="Poic"/><when state="Di_da" output="ড্র" next="Pic"/><when state="De_da" output="ড্র" next="Pec"/><when state="Do_da" output="ড্র" next="Poic"/><when state="Di_dha" output="ঢ্র" next="Pic"/><when state="De_dha" output="ঢ্র" next="Pec"/><when state="Do_dha" output="ঢ্র" next="Poic"/><when state="Di_dha-ra" output="ঢ়্র" next="Pic"/><when state="De_dha-ra" output="ঢ়্র" next="Pec"/><when state="Do_dha-ra" output="ঢ়্র" next="Poic"/><when state="Di_dhaa" output="ধ্র" next="Pic"/><when state="De_dhaa" output="ধ্র" next="Pec"/><when state="Do_dhaa" output="ধ্র" next="Poic"/><when state="Di_doa" output="দ্র" next="Pic"/><when state="De_doa" output="দ্র" next="Pec"/><when state="Do_doa" output="দ্র" next="Poic"/><when state="Di_ga" output="গ্র" next="Pic"/><when state="De_ga" output="গ্র" next="Pec"/><when state="Do_ga" output="গ্র" next="Poic"/><when state="Di_gha" output="ঘ্র" next="Pic"/><when state="De_gha" output="ঘ্র" next="Pec"/><when state="Do_gha" output="ঘ্র" next="Poic"/><when state="Di_ha" output="হ্র" next="Pic"/><when state="De_ha" output="হ্র" next="Pec"/><when state="Do_ha" output="হ্র" next="Poic"/><when state="Di_ja" output="জ্র" next="Pic"/><when state="De_ja" output="জ্র" next="Pec"/><when state="Do_ja" output="জ্র" next="Poic"/><when state="Di_jha" output="ঝ্র" next="Pic"/><when state="De_jha" output="ঝ্র" next="Pec"/><when state="Do_jha" output="ঝ্র" next="Poic"/><when state="Di_ka" output="ক্র" next="Pic"/><when state="De_ka" output="ক্র" next="Pec"/><when state="Do_ka" output="ক্র" next="Poic"/><when state="Di_kha" output="খ্র" next="Pic"/><when state="De_kha" output="খ্র" next="Pec"/><when state="Do_kha" output="খ্র" next="Poic"/><when state="Di_la" output="ল্র" next="Pic"/><when state="De_la" output="ল্র" next="Pec"/><when state="Do_la" output="ল্র" next="Poic"/><when state="Di_m-na" output="ণ্র" next="Pic"/><when state="De_m-na" output="ণ্র" next="Pec"/><when state="Do_m-na" output="ণ্র" next="Poic"/><when state="Di_m-sha" output="ষ্র" next="Pic"/><when state="De_m-sha" output="ষ্র" next="Pec"/><when state="Do_m-sha" output="ষ্র" next="Poic"/><when state="Di_ma" output="ম্র" next="Pic"/><when state="De_ma" output="ম্র" next="Pec"/><when state="Do_ma" output="ম্র" next="Poic"/><when state="Di_n-na" output="ন্র" next="Pic"/><when state="De_n-na" output="ন্র" next="Pec"/><when state="Do_n-na" output="ন্র" next="Poic"/><when state="Di_nio" output="ঞ্র" next="Pic"/><when state="De_nio" output="ঞ্র" next="Pec"/><when state="Do_nio" output="ঞ্র" next="Poic"/><when state="Di_pa" output="প্র" next="Pic"/><when state="De_pa" output="প্র" next="Pec"/><when state="Do_pa" output="প্র" next="Poic"/><when state="Di_pha" output="ফ্র" next="Pic"/><when state="De_pha" output="ফ্র" next="Pec"/><when state="Do_pha" output="ফ্র" next="Poic"/><when state="Di_ra" output="র্র" next="Pic"/><when state="De_ra" output="র্র" next="Pec"/><when state="Do_ra" output="র্র" next="Poic"/><when state="Di_s-sha" output="স্র" next="Pic"/><when state="De_s-sha" output="স্র" next="Pec"/><when state="Do_s-sha" output="স্র" next="Poic"/><when state="Di_t-sha" output="শ্র" next="Pic"/><when state="De_t-sha" output="শ্র" next="Pec"/><when state="Do_t-sha" output="শ্র" next="Poic"/><when state="Di_thoa" output="থ্র" next="Pic"/><when state="De_thoa" output="থ্র" next="Pec"/><when state="Do_thoa" output="থ্র" next="Poic"/><when state="Di_toa" output="ত্র" next="Pic"/><when state="De_toa" output="ত্র" next="Pec"/><when state="Do_toa" output="ত্র" next="Poic"/><when state="Di_tta" output="ট্র" next="Pic"/><when state="De_tta" output="ট্র" next="Pec"/><when state="Do_tta" output="ট্র" next="Poic"/><when state="Di_ttha" output="ঠ্র" next="Pic"/><when state="De_ttha" output="ঠ্র" next="Pec"/><when state="Do_ttha" output="ঠ্র" next="Poic"/><when state="Di_uyo" output="ঙ্র" next="Pic"/><when state="De_uyo" output="ঙ্র" next="Pec"/><when state="Do_uyo" output="ঙ্র" next="Poic"/><when state="Pic" output="্র" next="Pic"/><when state="Pec" output="্র" next="Pec"/><when state="Poic" output="্র" next="Poic"/>
             <when state="none" next="ra-fola"/>
         </action>
         <action id="ree-kar"><when state="Pic_h" output="িঋ"/><when state="Pec_h" output="েঋ"/><when state="Poic_h" output="ৈঋ"/>
-            <when state="none" output="&#x09C3;"/>
+            <when state="none" next="ree-kar"/>
             <when state="hasanta" next="hasanta_ree-kar"/>
         </action>
         <action id="ref"><when state="Di_ant-ja" output="র্যি"/><when state="De_ant-ja" output="র্যে"/><when state="Do_ant-ja" output="র্যৈ"/><when state="Di_ants-a" output="র্য়ি"/><when state="De_ants-a" output="র্য়ে"/><when state="Do_ants-a" output="র্য়ৈ"/><when state="Di_ba" output="র্বি"/><when state="De_ba" output="র্বে"/><when state="Do_ba" output="র্বৈ"/><when state="Di_bha" output="র্ভি"/><when state="De_bha" output="র্ভে"/><when state="Do_bha" output="র্ভৈ"/><when state="Di_ccha" output="র্ছি"/><when state="De_ccha" output="র্ছে"/><when state="Do_ccha" output="র্ছৈ"/><when state="Di_cha" output="র্চি"/><when state="De_cha" output="র্চে"/><when state="Do_cha" output="র্চৈ"/><when state="Di_d-ra" output="র্ড়ি"/><when state="De_d-ra" output="র্ড়ে"/><when state="Do_d-ra" output="র্ড়ৈ"/><when state="Di_da" output="র্ডি"/><when state="De_da" output="র্ডে"/><when state="Do_da" output="র্ডৈ"/><when state="Di_dha" output="র্ঢি"/><when state="De_dha" output="র্ঢে"/><when state="Do_dha" output="র্ঢৈ"/><when state="Di_dha-ra" output="র্ঢ়ি"/><when state="De_dha-ra" output="র্ঢ়ে"/><when state="Do_dha-ra" output="র্ঢ়ৈ"/><when state="Di_dhaa" output="র্ধি"/><when state="De_dhaa" output="র্ধে"/><when state="Do_dhaa" output="র্ধৈ"/><when state="Di_doa" output="র্দি"/><when state="De_doa" output="র্দে"/><when state="Do_doa" output="র্দৈ"/><when state="Di_ga" output="র্গি"/><when state="De_ga" output="র্গে"/><when state="Do_ga" output="র্গৈ"/><when state="Di_gha" output="র্ঘি"/><when state="De_gha" output="র্ঘে"/><when state="Do_gha" output="র্ঘৈ"/><when state="Di_ha" output="র্হি"/><when state="De_ha" output="র্হে"/><when state="Do_ha" output="র্হৈ"/><when state="Di_ja" output="র্জি"/><when state="De_ja" output="র্জে"/><when state="Do_ja" output="র্জৈ"/><when state="Di_jha" output="র্ঝি"/><when state="De_jha" output="র্ঝে"/><when state="Do_jha" output="র্ঝৈ"/><when state="Di_ka" output="র্কি"/><when state="De_ka" output="র্কে"/><when state="Do_ka" output="র্কৈ"/><when state="Di_kha" output="র্খি"/><when state="De_kha" output="র্খে"/><when state="Do_kha" output="র্খৈ"/><when state="Di_la" output="র্লি"/><when state="De_la" output="র্লে"/><when state="Do_la" output="র্লৈ"/><when state="Di_m-na" output="র্ণি"/><when state="De_m-na" output="র্ণে"/><when state="Do_m-na" output="র্ণৈ"/><when state="Di_m-sha" output="র্ষি"/><when state="De_m-sha" output="র্ষে"/><when state="Do_m-sha" output="র্ষৈ"/><when state="Di_ma" output="র্মি"/><when state="De_ma" output="র্মে"/><when state="Do_ma" output="র্মৈ"/><when state="Di_n-na" output="র্নি"/><when state="De_n-na" output="র্নে"/><when state="Do_n-na" output="র্নৈ"/><when state="Di_nio" output="র্ঞি"/><when state="De_nio" output="র্ঞে"/><when state="Do_nio" output="র্ঞৈ"/><when state="Di_pa" output="র্পি"/><when state="De_pa" output="র্পে"/><when state="Do_pa" output="র্পৈ"/><when state="Di_pha" output="র্ফি"/><when state="De_pha" output="র্ফে"/><when state="Do_pha" output="র্ফৈ"/><when state="Di_ra" output="র্রি"/><when state="De_ra" output="র্রে"/><when state="Do_ra" output="র্রৈ"/><when state="Di_s-sha" output="র্সি"/><when state="De_s-sha" output="র্সে"/><when state="Do_s-sha" output="র্সৈ"/><when state="Di_t-sha" output="র্শি"/><when state="De_t-sha" output="র্শে"/><when state="Do_t-sha" output="র্শৈ"/><when state="Di_thoa" output="র্থি"/><when state="De_thoa" output="র্থে"/><when state="Do_thoa" output="র্থৈ"/><when state="Di_toa" output="র্তি"/><when state="De_toa" output="র্তে"/><when state="Do_toa" output="র্তৈ"/><when state="Di_tta" output="র্টি"/><when state="De_tta" output="র্টে"/><when state="Do_tta" output="র্টৈ"/><when state="Di_ttha" output="র্ঠি"/><when state="De_ttha" output="র্ঠে"/><when state="Do_ttha" output="র্ঠৈ"/><when state="Di_uyo" output="র্ঙি"/><when state="De_uyo" output="র্ঙে"/><when state="Do_uyo" output="র্ঙৈ"/><when state="ant-ja" output="র্য"/><when state="ants-a" output="র্য়"/><when state="ba" output="র্ব"/><when state="bha" output="র্ভ"/><when state="ccha" output="র্ছ"/><when state="cha" output="র্চ"/><when state="d-ra" output="র্ড়"/><when state="da" output="র্ড"/><when state="dha" output="র্ঢ"/><when state="dha-ra" output="র্ঢ়"/><when state="dhaa" output="র্ধ"/><when state="doa" output="র্দ"/><when state="ga" output="র্গ"/><when state="gha" output="র্ঘ"/><when state="ha" output="র্হ"/><when state="ja" output="র্জ"/><when state="jha" output="র্ঝ"/><when state="ka" output="র্ক"/><when state="kha" output="র্খ"/><when state="la" output="র্ল"/><when state="m-na" output="র্ণ"/><when state="m-sha" output="র্ষ"/><when state="ma" output="র্ম"/><when state="n-na" output="র্ন"/><when state="nio" output="র্ঞ"/><when state="pa" output="র্প"/><when state="pha" output="র্ফ"/><when state="ra" output="র্র"/><when state="s-sha" output="র্স"/><when state="t-sha" output="র্শ"/><when state="thoa" output="র্থ"/><when state="toa" output="র্ত"/><when state="tta" output="র্ট"/><when state="ttha" output="র্ঠ"/><when state="uyo" output="র্ঙ"/>
@@ -796,62 +796,62 @@
             <when state="hasanta" next="hasanta_rshee-kar"/>
         </action>
         <action id="rsu-kar"><when state="Pic_h" output="িউ"/><when state="Pec_h" output="েউ"/><when state="Poic_h" output="ৈউ"/>
-            <when state="none" output="&#x09C1;"/>
+            <when state="none" next="rsu-kar"/>
             <when state="hasanta" next="hasanta_rsu-kar"/>
         </action>
         <action id="s-sha"><when state="Pi_float" next="Di_s-sha"/><when state="Pe_float" next="De_s-sha"/><when state="Po_float" next="Do_s-sha"/><when state="Pic_h" output="্স" next="Pic"/><when state="Pec_h" output="্স" next="Pec"/><when state="Poic_h" output="্স" next="Poic"/><when state="rshee-kar" next="Di_s-sha"/><when state="Pih" output="স" next="Pic"/><when state="a-kar" next="De_s-sha"/><when state="Peh" output="স" next="Pec"/><when state="oi-kar" next="Do_s-sha"/><when state="Poih" output="স" next="Poic"/>
-            <when state="none" output="&#x09B8;"/>
+            <when state="none" next="s-sha"/>
         </action>
         <action id="seven">
-            <when state="none" output="&#x09ED;"/>
+            <when state="none" next="seven"/>
         </action>
         <action id="six">
-            <when state="none" output="&#x09EC;"/>
+            <when state="none" next="six"/>
         </action>
         <action id="space">
-            <when state="none" output="&#x0020;"/>
+            <when state="none" next="space"/>
         </action>
         <action id="t-sha"><when state="Pi_float" next="Di_t-sha"/><when state="Pe_float" next="De_t-sha"/><when state="Po_float" next="Do_t-sha"/><when state="Pic_h" output="্শ" next="Pic"/><when state="Pec_h" output="্শ" next="Pec"/><when state="Poic_h" output="্শ" next="Poic"/><when state="rshee-kar" next="Di_t-sha"/><when state="Pih" output="শ" next="Pic"/><when state="a-kar" next="De_t-sha"/><when state="Peh" output="শ" next="Pec"/><when state="oi-kar" next="Do_t-sha"/><when state="Poih" output="শ" next="Poic"/>
-            <when state="none" output="&#x09B6;"/>
+            <when state="none" next="t-sha"/>
         </action>
         <action id="thoa"><when state="Pi_float" next="Di_thoa"/><when state="Pe_float" next="De_thoa"/><when state="Po_float" next="Do_thoa"/><when state="Pic_h" output="্থ" next="Pic"/><when state="Pec_h" output="্থ" next="Pec"/><when state="Poic_h" output="্থ" next="Poic"/><when state="rshee-kar" next="Di_thoa"/><when state="Pih" output="থ" next="Pic"/><when state="a-kar" next="De_thoa"/><when state="Peh" output="থ" next="Pec"/><when state="oi-kar" next="Do_thoa"/><when state="Poih" output="থ" next="Poic"/>
-            <when state="none" output="&#x09A5;"/>
+            <when state="none" next="thoa"/>
         </action>
         <action id="three">
-            <when state="none" output="&#x09E9;"/>
+            <when state="none" next="three"/>
         </action>
         <action id="toa"><when state="Pi_float" next="Di_toa"/><when state="Pe_float" next="De_toa"/><when state="Po_float" next="Do_toa"/><when state="Pic_h" output="্ত" next="Pic"/><when state="Pec_h" output="্ত" next="Pec"/><when state="Poic_h" output="্ত" next="Poic"/><when state="rshee-kar" next="Di_toa"/><when state="Pih" output="ত" next="Pic"/><when state="a-kar" next="De_toa"/><when state="Peh" output="ত" next="Pec"/><when state="oi-kar" next="Do_toa"/><when state="Poih" output="ত" next="Poic"/>
-            <when state="none" output="&#x09A4;"/>
+            <when state="none" next="toa"/>
         </action>
         <action id="tta"><when state="Pi_float" next="Di_tta"/><when state="Pe_float" next="De_tta"/><when state="Po_float" next="Do_tta"/><when state="Pic_h" output="্ট" next="Pic"/><when state="Pec_h" output="্ট" next="Pec"/><when state="Poic_h" output="্ট" next="Poic"/><when state="rshee-kar" next="Di_tta"/><when state="Pih" output="ট" next="Pic"/><when state="a-kar" next="De_tta"/><when state="Peh" output="ট" next="Pec"/><when state="oi-kar" next="Do_tta"/><when state="Poih" output="ট" next="Poic"/>
-            <when state="none" output="&#x099F;"/>
+            <when state="none" next="tta"/>
         </action>
         <action id="ttha"><when state="Pi_float" next="Di_ttha"/><when state="Pe_float" next="De_ttha"/><when state="Po_float" next="Do_ttha"/><when state="Pic_h" output="্ঠ" next="Pic"/><when state="Pec_h" output="্ঠ" next="Pec"/><when state="Poic_h" output="্ঠ" next="Poic"/><when state="rshee-kar" next="Di_ttha"/><when state="Pih" output="ঠ" next="Pic"/><when state="a-kar" next="De_ttha"/><when state="Peh" output="ঠ" next="Pec"/><when state="oi-kar" next="Do_ttha"/><when state="Poih" output="ঠ" next="Poic"/>
-            <when state="none" output="&#x09A0;"/>
+            <when state="none" next="ttha"/>
         </action>
         <action id="uyo"><when state="Pi_float" next="Di_uyo"/><when state="Pe_float" next="De_uyo"/><when state="Po_float" next="Do_uyo"/><when state="Pic_h" output="্ঙ" next="Pic"/><when state="Pec_h" output="্ঙ" next="Pec"/><when state="Poic_h" output="্ঙ" next="Poic"/><when state="rshee-kar" next="Di_uyo"/><when state="Pih" output="ঙ" next="Pic"/><when state="a-kar" next="De_uyo"/><when state="Peh" output="ঙ" next="Pec"/><when state="oi-kar" next="Do_uyo"/><when state="Poih" output="ঙ" next="Poic"/>
-            <when state="none" output="&#x0999;"/>
+            <when state="none" next="uyo"/>
         </action>
         <action id="zero">
-            <when state="none" output="&#x09E6;"/>
+            <when state="none" next="zero"/>
         </action>
         <action id="zero+">
-            <when state="none" output="+"/>
+            <when state="none" next="zero+"/>
         </action>
         <action id="zero-">
-            <when state="none" output="-"/>
+            <when state="none" next="zero-"/>
         </action>
         <action id="zero=">
-            <when state="none" output="="/>
+            <when state="none" next="zero="/>
         </action>
         <action id="zero_">
-            <when state="none" output="_"/>
+            <when state="none" next="zero_"/>
         </action>
         <action id="{">
-            <when state="none" output="{"/>
+            <when state="none" next="{"/>
         </action>
         <action id="}">
-            <when state="none" output="}"/>
+            <when state="none" next="}"/>
         </action>
     </actions>
     <terminators>
