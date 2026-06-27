@@ -37,6 +37,10 @@ public:
     std::u16string process(unsigned scanCode, bool shift);
     // Emit any dangling deadkey and reset (space / Enter / focus loss / chord).
     std::u16string flush();
+    // What the current pending deadkey would emit if flushed NOW — used to show a
+    // live preview of the in-progress syllable (so characters appear immediately,
+    // not one key late). Does not change state.
+    std::u16string peek() const { return t_->strings[t_->term[state_]]; }
     void reset() { state_ = 0; }
     // True if this scan code is part of the layout (else the host handles it).
     bool wouldHandle(unsigned scanCode) const;

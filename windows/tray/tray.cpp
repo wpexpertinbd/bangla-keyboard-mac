@@ -39,6 +39,8 @@ static HWND            g_hWnd;
 static HHOOK           g_hook;
 static KLEngine        g_uni(&bangla::unicode_table::TABLE);  // Unicode (keylayout-driven)
 static KLEngine        g_classic(&bangla::classic_table::TABLE); // Classic
+static Str             g_committed;        // finalised text of the current run
+static Str             g_shown;            // what's on screen now (committed + live preview)
 static Mode            g_mode = MODE_ENGLISH;
 static Mode            g_lastBangla = MODE_UNICODE;  // what Ctrl+Alt+B / click returns to
 static bool            g_classicHintShown = false;
@@ -58,7 +60,16 @@ static HBITMAP         g_bmpEn  = nullptr;
 #define ID_EXIT     1011
 #define HOTKEY_TOGGLE 1
 
-// ---- key injection (append-only — works for both modes) --------------------
+// ---- key injection ---------------------------------------------------------
+static void sendBackspaces(int n) {
+    if (n <= 0) return;
+    std::vector<INPUT> in; in.reserve(n * 2);
+    for (int i = 0; i < n; ++i) {
+        INPUT d = {}; d.type = INPUT_KEYBOARD; d.ki.wVk = VK_BACK; in.push_back(d);
+        INPUT u = {}; u.type = INPUT_KEYBOARD; u.ki.wVk = VK_BACK; u.ki.dwFlags = KEYEVENTF_KEYUP; in.push_back(u);
+    }
+    SendInput((UINT)in.size(), in.data(), sizeof(INPUT));
+}
 static void sendUnicode(const Str& s) {
     if (s.empty()) return;
     std::vector<INPUT> in; in.reserve(s.size() * 2);
@@ -71,9 +82,26 @@ static void sendUnicode(const Str& s) {
 
 static KLEngine* currentEngine() { return g_mode == MODE_CLASSIC ? &g_classic : &g_uni; }
 
-// Finalise whatever is pending (space / Enter / chord / focus loss).
+// Inject one handled key. The deadkey FSM defers, so we show a LIVE PREVIEW =
+// committed text + what the pending deadkey would emit now (peek()). Each key thus
+// appears immediately; we back-space only the part of the preview that actually
+// changed (e.g. ে -> কে when a prebase vowel reorders).
+static void applyKey(KLEngine* eng, unsigned scan, bool shift) {
+    g_committed += eng->process(scan, shift);
+    Str preview = g_committed + eng->peek();
+    size_t i = 0;
+    while (i < g_shown.size() && i < preview.size() && g_shown[i] == preview[i]) ++i;
+    sendBackspaces((int)(g_shown.size() - i));
+    sendUnicode(preview.substr(i));
+    g_shown = preview;
+}
+
+// Finalise the current run (space / Enter / chord / focus loss). The pending
+// deadkey is already on screen via the preview, so just reset state + tracking.
 static void flushCurrent() {
-    if (g_mode != MODE_ENGLISH) sendUnicode(currentEngine()->flush());
+    if (g_mode != MODE_ENGLISH) currentEngine()->reset();
+    g_committed.clear();
+    g_shown.clear();
 }
 
 // ---- the global keyboard hook ----------------------------------------------
@@ -92,7 +120,7 @@ static LRESULT CALLBACK hookProc(int code, WPARAM wParam, LPARAM lParam) {
             if (ctrl || alt || win) {
                 flushCurrent();                               // let the shortcut through
             } else if (eng->wouldHandle(scan)) {
-                sendUnicode(eng->process(scan, shift));       // append-only
+                applyKey(eng, scan, shift);                   // immediate live preview
                 return 1;                                     // swallow the original key
             } else {
                 flushCurrent();                               // space / Enter / Tab / etc.

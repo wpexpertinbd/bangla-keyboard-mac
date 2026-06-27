@@ -23,10 +23,11 @@ coloured circle + a white Bangla letter.
   the **right-click menu**, or **Ctrl+Alt+B**.
 - A global low-level keyboard hook (`WH_KEYBOARD_LL`) runs each keystroke through
   the keylayout-driven engine ([`../engine/klengine.*`](../engine/)) and injects the
-  result with `SendInput`, so it works in **any** app (Notepad, Word, browsers,
-  chat). Both modes are **append-only** (the deadkey FSM defers and emits in final
-  order — prebase vowel and reph still reorder), so there's **no back-spacing** —
-  robust everywhere.
+  result with `SendInput`, so it works in **any** app (Notepad, Word, browsers, chat).
+- **Live preview:** the deadkey FSM defers, so the tray shows the pending character
+  immediately (`committed + peek()`) and back-spaces only the part that actually
+  changes on a reorder (e.g. `ে`→`কে`, reph). So every letter appears as you type —
+  no one-key lag — while prebase-vowel/reph reordering still works.
 - Output is **byte-identical to the macOS build** (same `.keylayout` FSM), incl.
   independent vowels: `f`→া, `Shift+f`→অ, `Shift+f` then `f`→আ.
 
@@ -54,8 +55,10 @@ the switch-from-the-tray experience; use the IME for the most robust integration
 ## Limitations / TODO
 - **Classic needs a legacy ANSI Bangla font** to render (we can't bundle one).
   Without it the text shows as Latin/symbol characters, same as on Mac.
-- Injection is append-only (no back-spacing), so it's robust — but a global hook +
-  `SendInput` can still be blocked in password fields or some full-screen games.
+- Live preview back-spaces only on reorders (usually 0–1 per key), so it's robust —
+  but a global hook + `SendInput` can still be blocked in password fields or some
+  full-screen games, and apps that delete a whole grapheme cluster per backspace may
+  over-delete on a reorder.
 - x64 only — a global hook works across all apps regardless of their bitness, so no
   separate 32-bit build is needed.
 - Unsigned — code-sign before distributing (a keyboard hook + unsigned exe will
