@@ -16,9 +16,14 @@ TYPING
   reorders correctly (ে + ক -> কে). Independent vowels: f -> া, Shift+f -> অ,
   Shift+f then f -> আ.
 
-  - Bangla Unicode works with any Bangla font (Windows has them built in).
-  - Bangla Classic outputs the legacy ANSI encoding — set your app's font to a
-    legacy ANSI Bangla font to see Bangla; otherwise it shows Latin characters.
+  - Bangla Unicode works with any Bangla font — Windows has them built in, and the
+    installer can add 14 popular free fonts (SolaimanLipi, Kalpurush, Siyam Rupali, …).
+
+  - Bangla Classic: The Bangla Classic layout outputs the legacy ASCII (non-Unicode)
+    encoding that legacy ANSI ("MJ"-family) Bangla fonts use. Those fonts are
+    proprietary and are not included in this project. To use the Classic layout you
+    must install a compatible legacy ANSI Bangla font from your own legitimate
+    source, then select that font in your app.
 
 ENGLISH SHORTCUTS
   All normal shortcuts keep working — Ctrl+C/V/X/A (copy/paste/cut/select-all),

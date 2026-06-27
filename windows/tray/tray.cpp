@@ -82,12 +82,17 @@ static void sendUnicode(const Str& s) {
 }
 
 static KLEngine* currentEngine() { return g_mode == MODE_CLASSIC ? &g_classic : &g_uni; }
+static void flushCurrent();
 
 // Inject one handled key. The deadkey FSM defers, so we show a LIVE PREVIEW =
 // committed text + what the pending deadkey would emit now (peek()). Each key thus
 // appears immediately; we back-space only the part of the preview that actually
 // changed (e.g. ে -> কে when a prebase vowel reorders).
 static void applyKey(KLEngine* eng, unsigned scan, bool shift) {
+    // Cap the in-progress run so a very long burst / stuck auto-repeat can't grow
+    // the buffers unbounded (it just commits and starts fresh — no real word is
+    // this long, and word boundaries normally flush far sooner).
+    if (g_committed.size() > 1024) flushCurrent();
     g_committed += eng->process(scan, shift);
     Str preview = g_committed + eng->peek();
     size_t i = 0;
@@ -107,38 +112,47 @@ static void flushCurrent() {
 
 // ---- the global keyboard hook ----------------------------------------------
 static LRESULT CALLBACK hookProc(int code, WPARAM wParam, LPARAM lParam) {
+    bool eat = false;
     if (code == HC_ACTION && g_mode != MODE_ENGLISH) {
-        auto* k = reinterpret_cast<KBDLLHOOKSTRUCT*>(lParam);
-        bool injected = (k->flags & LLKHF_INJECTED) != 0;     // skip our own SendInput
-        if (!injected && (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN)) {
-            auto down = [](int vk) { return (GetAsyncKeyState(vk) & 0x8000) != 0; };
-            bool ctrl  = down(VK_CONTROL), alt = down(VK_MENU);
-            bool win   = down(VK_LWIN) || down(VK_RWIN);
-            bool shift = down(VK_SHIFT);
-            unsigned scan = k->scanCode;
-            DWORD vk = k->vkCode;
-            KLEngine* eng = currentEngine();
+        // Never let a C++ exception (e.g. bad_alloc) escape into the OS hook
+        // dispatch — that would destabilise input for every app on the desktop.
+        try {
+            auto* k = reinterpret_cast<KBDLLHOOKSTRUCT*>(lParam);
+            bool injected = (k->flags & LLKHF_INJECTED) != 0; // skip our own SendInput
+            if (!injected && (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN)) {
+                auto down = [](int vk) { return (GetAsyncKeyState(vk) & 0x8000) != 0; };
+                bool ctrl  = down(VK_CONTROL), alt = down(VK_MENU);
+                bool win   = down(VK_LWIN) || down(VK_RWIN);
+                bool shift = down(VK_SHIFT);
+                unsigned scan = k->scanCode;
+                DWORD vk = k->vkCode;
+                KLEngine* eng = currentEngine();
 
-            // A modifier key pressed on its OWN (Shift/Ctrl/Alt/Win/Caps) must NOT
-            // flush — otherwise pressing Shift before a shifted letter (e.g. ছ) would
-            // commit a pending prebase vowel before it can reorder (ে + ছ -> ছে).
-            bool isModifier = vk == VK_SHIFT  || vk == VK_LSHIFT   || vk == VK_RSHIFT
-                           || vk == VK_CONTROL || vk == VK_LCONTROL || vk == VK_RCONTROL
-                           || vk == VK_MENU    || vk == VK_LMENU    || vk == VK_RMENU
-                           || vk == VK_LWIN    || vk == VK_RWIN     || vk == VK_CAPITAL;
+                // A modifier key pressed on its OWN (Shift/Ctrl/Alt/Win/Caps) must
+                // NOT flush — otherwise pressing Shift before a shifted letter
+                // (e.g. ছ) would commit a pending prebase vowel before it can
+                // reorder (ে + ছ -> ছে).
+                bool isModifier = vk == VK_SHIFT  || vk == VK_LSHIFT   || vk == VK_RSHIFT
+                               || vk == VK_CONTROL || vk == VK_LCONTROL || vk == VK_RCONTROL
+                               || vk == VK_MENU    || vk == VK_LMENU    || vk == VK_RMENU
+                               || vk == VK_LWIN    || vk == VK_RWIN     || vk == VK_CAPITAL;
 
-            if (isModifier) {
-                /* pass through, keep the pending deadkey */
-            } else if (ctrl || alt || win) {
-                flushCurrent();                               // let the shortcut through
-            } else if (eng->wouldHandle(scan)) {
-                applyKey(eng, scan, shift);                   // immediate live preview
-                return 1;                                     // swallow the original key
-            } else {
-                flushCurrent();                               // space / Enter / Tab / etc.
+                if (isModifier) {
+                    /* pass through, keep the pending deadkey */
+                } else if (ctrl || alt || win) {
+                    flushCurrent();                           // let the shortcut through
+                } else if (eng->wouldHandle(scan)) {
+                    applyKey(eng, scan, shift);               // immediate live preview
+                    eat = true;                               // swallow the original key
+                } else {
+                    flushCurrent();                           // space / Enter / Tab / etc.
+                }
             }
+        } catch (...) {
+            g_committed.clear(); g_shown.clear();             // drop state, stay alive
         }
     }
+    if (eat) return 1;
     return CallNextHookEx(g_hook, code, wParam, lParam);
 }
 

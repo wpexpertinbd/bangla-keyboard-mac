@@ -48,7 +48,45 @@ development). The uninstall path uses the same pattern for every file it removes
 - Fonts are free/libre TrueType files from the projects listed in
   `fonts-licenses/FONTS.md`.
 
+## Windows (tray app)
+
+The Windows build (`windows/`, shipped as `bangla-tray.exe`) is a tray keyboard
+that uses a global low-level keyboard hook (`WH_KEYBOARD_LL`) — the standard way an
+input method sees keystrokes. Audit findings:
+
+- **No keystroke logging, storage, or transmission.** The app holds only the
+  *current syllable* in memory and clears it on every word boundary. Source review:
+  **no file, network, registry, or process-exec calls** anywhere in the app or
+  engine (`grep` for `CreateFile`/`WriteFile`/`socket`/`WinHttp`/`RegSetValue`/
+  `ShellExecute`/`system` → none). No telemetry, no auto-update, no analytics.
+- **No DLL-hijacking surface.** The binary is statically linked and imports **only
+  system DLLs** (`kernel32`, `user32`, `gdi32`, `shell32`, `msvcrt`), which load
+  from `System32` / KnownDLLs — no third-party or app-directory DLL is loaded.
+- **Least privilege.** Runs as the normal user (no elevation); the installer is
+  **per-user** (`%LocalAppData%`), so installing/uninstalling needs no admin.
+- **Exception-safe hook.** The hook callback is wrapped so no C++ exception can
+  escape into the OS input dispatch (a crash there would affect every app); on any
+  error it drops its pending state and stays alive.
+- **Bounded buffers.** The in-progress run is capped (1024 chars) so a long burst or
+  stuck auto-repeat can't grow memory/CPU unbounded.
+- **Engine input safety.** The reordering engine is driven by **compile-time-constant
+  tables** generated from the macOS `.keylayout` files; the only runtime input is the
+  user's own scan codes (bounded to one byte). No untrusted data crosses into it.
+- **Installer.** No remote code/downloads; the only external call is a fixed
+  `taskkill /im bangla-tray.exe` (constant image name — no injection) to close the
+  running tray before install/uninstall.
+
+The optional **TSF IME** DLL (`windows/tsf/`, not shipped in the release) is an
+in-proc COM keyboard service; it is experimental and excluded from binary releases
+until reviewed and code-signed.
+
 ## Known / accepted items
+
+- **Windows: unsigned + keylogger-shaped tech.** The tray app is not code-signed
+  yet (SmartScreen warns; *More info → Run anyway*), and a global keyboard hook is
+  the same Windows API a keylogger uses — so some antivirus may heuristically flag
+  it. It does **not** exfiltrate anything (see the audit above); a code-signing
+  certificate + reputation removes both the SmartScreen prompt and most AV noise.
 
 - **Unsigned distribution.** The `.pkg` and `.command` are not code‑signed or
   notarized, so Gatekeeper shows an "unidentified developer" warning and users
