@@ -157,9 +157,11 @@ static LRESULT CALLBACK hookProc(int code, WPARAM wParam, LPARAM lParam) {
 }
 
 // ---- tray icon / menu ------------------------------------------------------
-// Flag-style icon: green square + colored circle + white Bangla letter (matches
-// the macOS icons). The circle colour tells the modes apart.
-static HICON makeIcon(const wchar_t* txt, COLORREF circle) {
+// Flag-style icon: green square + colored circle + a letter (matches the macOS
+// icons). The circle/letter colours tell the modes apart — Bangla modes use a
+// red/brick circle + white letter; English uses a white circle + black E so it
+// stands out clearly as the "off" state.
+static HICON makeIcon(const wchar_t* txt, COLORREF circle, COLORREF fg) {
     const int sz = 32;
     HDC sdc = GetDC(nullptr);
     HDC dc  = CreateCompatibleDC(sdc);
@@ -169,12 +171,12 @@ static HICON makeIcon(const wchar_t* txt, COLORREF circle) {
     RECT r = {0, 0, sz, sz};
     HBRUSH green = CreateSolidBrush(RGB(0, 106, 78));      // Bangladesh-flag green
     FillRect(dc, &r, green); DeleteObject(green);
-    HBRUSH cb = CreateSolidBrush(circle);                  // red / brick / grey circle
+    HBRUSH cb = CreateSolidBrush(circle);                  // red / brick / white circle
     HGDIOBJ ob2 = SelectObject(dc, cb);
     HGDIOBJ op  = SelectObject(dc, GetStockObject(NULL_PEN));
     Ellipse(dc, 3, 3, sz - 3, sz - 3);
     SelectObject(dc, op); SelectObject(dc, ob2); DeleteObject(cb);
-    SetBkMode(dc, TRANSPARENT); SetTextColor(dc, RGB(255, 255, 255));
+    SetBkMode(dc, TRANSPARENT); SetTextColor(dc, fg);
     HFONT f = CreateFontW(22, 0, 0, 0, FW_BOLD, 0, 0, 0, DEFAULT_CHARSET,
                           OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY,
                           DEFAULT_PITCH, L"Nirmala UI");
@@ -190,7 +192,7 @@ static HICON makeIcon(const wchar_t* txt, COLORREF circle) {
 
 // Same flag-style art as the tray icon, drawn into a 16x16 HBITMAP for the popup
 // menu (menus take a bitmap via MIIM_BITMAP, not an HICON).
-static HBITMAP makeMenuBitmap(const wchar_t* txt, COLORREF circle) {
+static HBITMAP makeMenuBitmap(const wchar_t* txt, COLORREF circle, COLORREF fg) {
     const int sz = 16;
     HDC sdc = GetDC(nullptr);
     HDC dc  = CreateCompatibleDC(sdc);
@@ -204,7 +206,7 @@ static HBITMAP makeMenuBitmap(const wchar_t* txt, COLORREF circle) {
     HGDIOBJ op  = SelectObject(dc, GetStockObject(NULL_PEN));
     Ellipse(dc, 1, 1, sz - 1, sz - 1);
     SelectObject(dc, op); SelectObject(dc, ob2); DeleteObject(cb);
-    SetBkMode(dc, TRANSPARENT); SetTextColor(dc, RGB(255, 255, 255));
+    SetBkMode(dc, TRANSPARENT); SetTextColor(dc, fg);
     HFONT f = CreateFontW(13, 0, 0, 0, FW_BOLD, 0, 0, 0, DEFAULT_CHARSET,
                           OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY,
                           DEFAULT_PITCH, L"Nirmala UI");
@@ -331,12 +333,13 @@ int WINAPI wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR, int) {
     g_hWnd = CreateWindowW(wc.lpszClassName, L"Bangla Keyboard", 0, 0, 0, 0, 0,
                            HWND_MESSAGE, nullptr, hInst, nullptr);
 
-    g_icoUni = makeIcon(L"অ", RGB(244, 42, 65));   // flag red
-    g_icoCls = makeIcon(L"ক", RGB(192, 57, 43));   // brick red
-    g_icoEn  = makeIcon(L"E", RGB(127, 140, 141)); // grey
-    g_bmpUni = makeMenuBitmap(L"অ", RGB(244, 42, 65));
-    g_bmpCls = makeMenuBitmap(L"ক", RGB(192, 57, 43));
-    g_bmpEn  = makeMenuBitmap(L"E", RGB(127, 140, 141));
+    const COLORREF white = RGB(255, 255, 255), black = RGB(0, 0, 0);
+    g_icoUni = makeIcon(L"অ", RGB(244, 42, 65), white);   // red circle, white অ
+    g_icoCls = makeIcon(L"ক", RGB(192, 57, 43), white);   // brick circle, white ক
+    g_icoEn  = makeIcon(L"E", white, black);              // white circle, black E
+    g_bmpUni = makeMenuBitmap(L"অ", RGB(244, 42, 65), white);
+    g_bmpCls = makeMenuBitmap(L"ক", RGB(192, 57, 43), white);
+    g_bmpEn  = makeMenuBitmap(L"E", white, black);
 
     g_nid.cbSize = sizeof(g_nid);
     g_nid.hWnd   = g_hWnd;
