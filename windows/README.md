@@ -3,9 +3,10 @@
 > **Status: in progress — engine done, IME builds & loads.**
 > - ✅ **Engine ported to C++** ([`engine/`](engine/)) — **13/13** SPEC §7 corpus
 >   (compiled `enginetest.exe`; `engine/verify.py` is a Python mirror).
-> - ✅ **TSF text service** ([`tsf/`](tsf/)) — builds to `BanglaKeyboard.dll` (x64);
->   loads + COM/TSF vtables verified via `loadtest.exe` (no registry changes).
->   ⬜ Live in-app typing, composing underline, 32-bit DLL, and signing still to do.
+> - ✅ **TSF text service** ([`tsf/`](tsf/)) — builds to `BanglaKeyboard.dll` (x64)
+>   **and `BanglaKeyboard32.dll` (x86)**; both load + COM/TSF vtables verified via
+>   `loadtest.exe` / `loadtest32.exe` (no registry changes).
+>   ⬜ Live in-app typing, composing underline, and signing still to do.
 > - ✅ **Runnable demo** — `bangla-demo.exe`: type on your keyboard, see live Bangla.
 > - 🟡 **Installer** ([`installer/`](installer/)) — `register.bat`/`unregister.bat`
 >   work; a packaged signed installer is still TODO.

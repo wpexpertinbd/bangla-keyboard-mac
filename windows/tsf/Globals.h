@@ -6,6 +6,10 @@
 // verified on a Windows SDK box (no compiler on the dev box where it was drafted).
 #pragma once
 
+#ifndef _WIN32_WINNT
+#define _WIN32_WINNT 0x0601   // Windows 7+ (for RegDeleteTreeW etc.)
+#endif
+
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <msctf.h>

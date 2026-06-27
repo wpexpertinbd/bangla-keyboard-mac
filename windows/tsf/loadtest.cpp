@@ -20,13 +20,14 @@ static void check(const char* what, HRESULT hr, void* p) {
                 (SUCCEEDED(hr) && p) ? "OK" : "FAIL");
 }
 
-int main() {
+int main(int argc, char** argv) {
     CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
     int rc = 0;
 
-    HMODULE h = LoadLibraryW(L"BanglaKeyboard.dll");
-    if (!h) { std::printf("LoadLibrary failed: %lu\n", GetLastError()); return 1; }
-    std::printf("LoadLibrary BanglaKeyboard.dll -> %p\n", (void*)h);
+    const char* dll = (argc >= 2) ? argv[1] : "BanglaKeyboard.dll";
+    HMODULE h = LoadLibraryA(dll);
+    if (!h) { std::printf("LoadLibrary %s failed: %lu\n", dll, GetLastError()); return 1; }
+    std::printf("LoadLibrary %s -> %p\n", dll, (void*)h);
 
     auto gco = (PFN_GCO)GetProcAddress(h, "DllGetClassObject");
     auto canUnload = (PFN_CANUNLOAD)GetProcAddress(h, "DllCanUnloadNow");
