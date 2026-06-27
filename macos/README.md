@@ -134,13 +134,3 @@ fonts in `src/fonts/`, and the icons in `assets/`.
 ---
 
 Made with care by **[BiswasHost](https://www.biswashost.com)** 🇧🇩
-
-## ☕ Support
-
-This project is free and open-source. If it made your Bangla typing on the Mac
-easier, you can **buy me a coffee** — it genuinely helps me keep building and
-maintaining free tools like this. 🙏
-
-- **bKash** (Personal · *Send Money*): **`01710378396`**
-
-ধন্যবাদ! / Thank you!

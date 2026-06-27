@@ -53,4 +53,14 @@ three platforms share **one engine** and wrap it in a thin OS-specific shell:
 MIT — see [`LICENSE`](LICENSE). De-branded; not affiliated with any commercial Bangla
 keyboard or font vendor — see [`DISCLAIMER.md`](DISCLAIMER.md).
 
+## ☕ Support
+
+This project is free and open-source, on macOS, Windows, and Linux. If it made your
+Bangla typing easier, you can **buy me a coffee** — it genuinely helps me keep building
+and maintaining free tools like this. 🙏
+
+- **bKash** (Personal · *Send Money*): **`01710378396`**
+
+ধন্যবাদ! / Thank you!
+
 <p align="center">Made with care by <a href="https://www.biswashost.com">BiswasHost</a> 🇧🇩</p>
