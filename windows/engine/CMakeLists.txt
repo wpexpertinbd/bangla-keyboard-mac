@@ -17,5 +17,11 @@ endif()
 add_executable(enginetest test.cpp)
 target_link_libraries(enginetest PRIVATE bangla_engine)
 
+# Standalone runnable demo (Windows only — uses the console API).
+if(WIN32)
+  add_executable(bangla-demo demo.cpp)
+  target_link_libraries(bangla-demo PRIVATE bangla_engine)
+endif()
+
 enable_testing()
 add_test(NAME corpus COMMAND enginetest)

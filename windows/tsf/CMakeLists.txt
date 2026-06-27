@@ -25,5 +25,9 @@ if(MSVC)
     target_compile_definitions(BanglaKeyboard PRIVATE UNICODE _UNICODE)
 endif()
 
+# Non-destructive DLL smoke test (loads the DLL, exercises COM; no registry).
+add_executable(loadtest loadtest.cpp)
+target_link_libraries(loadtest PRIVATE ole32 oleaut32 uuid)
+
 # 64-bit Windows wants BOTH a 64-bit and a 32-bit TIP so the IME works in 32-bit
 # apps too. Configure twice (-A x64 and -A Win32) and ship both DLLs.

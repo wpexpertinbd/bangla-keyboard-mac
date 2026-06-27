@@ -14,7 +14,7 @@
 #include "../engine/engine.h"
 
 class TextService final
-    : public ITfTextInputProcessorEx
+    : public BK_TIP_BASE                 // ITfTextInputProcessorEx, or ...Processor on MinGW
     , public ITfThreadMgrEventSink
     , public ITfKeyEventSink
     , public ITfCompositionSink {
@@ -28,7 +28,9 @@ public:
 
     // ITfTextInputProcessor / Ex
     STDMETHODIMP Activate(ITfThreadMgr* tm, TfClientId id) override;
+#if BK_HAS_TIP_EX
     STDMETHODIMP ActivateEx(ITfThreadMgr* tm, TfClientId id, DWORD flags) override;
+#endif
     STDMETHODIMP Deactivate() override;
 
     // ITfThreadMgrEventSink (flush on focus changes)
@@ -63,6 +65,7 @@ public:
 private:
     ~TextService();
 
+    HRESULT doActivate(ITfThreadMgr*, TfClientId); // shared by Activate / ActivateEx
     HRESULT advise(ITfThreadMgr*);
     void    unadvise();
 

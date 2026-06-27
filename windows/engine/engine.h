@@ -36,8 +36,8 @@ enum class ResultKind {
 
 struct Result {
     ResultKind kind = ResultKind::Ignore;
-    Str text;     // Compose/Commit payload, or the "final" part of CommitThenCompose
-    Str compose;  // the new composing run (CommitThenCompose only)
+    Str text;  // Compose/Commit payload, or the "final" part of CommitThenCompose
+    Str comp;  // the new composing run (CommitThenCompose only)
 
     static Result ignore()                       { return {ResultKind::Ignore, {}, {}}; }
     static Result compose(Str t)                 { return {ResultKind::Compose, std::move(t), {}}; }

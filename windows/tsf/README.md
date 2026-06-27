@@ -7,11 +7,18 @@ prebase-through-conjunct (`ক্ষি`) all work in any TSF-aware app (Notepad
 browsers, …).
 
 ## Status
-**Scaffold — structurally complete, not yet compiled/verified on a Windows SDK box.**
-The engine underneath is verified (13/13 corpus; see `../engine/`). The COM/TSF
-layer here is standard boilerplate that must be built and tested with MSVC + the
-Windows SDK (neither was available on the machine where it was drafted). Spots
-needing SDK-time attention are tagged `// VERIFY` in the source.
+**Builds and loads.** Compiled to `BanglaKeyboard.dll` (x64) with MinGW (w64devkit)
+and smoke-tested with `loadtest.exe`: `LoadLibrary` → `DllGetClassObject` →
+`CreateInstance` → `QueryInterface` for `ITfKeyEventSink` / `ITfThreadMgrEventSink`
+/ `ITfCompositionSink` all succeed, with **no registry changes**. The engine under
+it is verified 13/13 (see `../engine/`).
+
+**Not yet done:** live in-app typing (needs registering the IME on a real Windows
+session and typing in Notepad/Word), the composing-text underline (display
+attribute — cosmetic, tagged `// VERIFY` in `TextService.cpp`), a 32-bit DLL for
+32-bit apps, and code-signing. The `Ex` interface (`ITfTextInputProcessorEx`) is
+used when the SDK provides it and falls back to `ITfTextInputProcessor` on MinGW
+(`BK_HAS_TIP_EX` in `Globals.h`).
 
 ## Files
 | file | role |

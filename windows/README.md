@@ -1,15 +1,22 @@
 # Bangla Keyboard — Windows port (TSF IME)
 
-> **Status: in progress.**
-> - ✅ **Engine ported to C++** ([`engine/`](engine/)) — passes 13/13 of the SPEC §7
->   corpus (verified via `engine/verify.py`; `engine/test.cpp` is the same in C++).
-> - ⬜ **TSF text service** ([`tsf/`](tsf/)) — scaffolded (engine wired to
->   composition via edit sessions); needs a build + verify pass on a Windows SDK box.
-> - ⬜ **Installer** ([`installer/`](installer/)) — notes only.
+> **Status: in progress — engine done, IME builds & loads.**
+> - ✅ **Engine ported to C++** ([`engine/`](engine/)) — **13/13** SPEC §7 corpus
+>   (compiled `enginetest.exe`; `engine/verify.py` is a Python mirror).
+> - ✅ **TSF text service** ([`tsf/`](tsf/)) — builds to `BanglaKeyboard.dll` (x64);
+>   loads + COM/TSF vtables verified via `loadtest.exe` (no registry changes).
+>   ⬜ Live in-app typing, composing underline, 32-bit DLL, and signing still to do.
+> - ✅ **Runnable demo** — `bangla-demo.exe`: type on your keyboard, see live Bangla.
+> - 🟡 **Installer** ([`installer/`](installer/)) — `register.bat`/`unregister.bat`
+>   work; a packaged signed installer is still TODO.
+>
+> Build everything: [`build-all.bat`](build-all.bat) (needs MinGW g++ — w64devkit —
+> or MSVC). Artifacts + usage: [`dist/README.md`](dist/README.md).
 >
 > ⚠️ Found a reph-reordering bug in the reference `engine/Engine.swift` while porting
-> (`ভার্সন`/`কর্ম` fail a faithful port); the C++ engine fixes it per the macOS
-> `.keylayout` ground truth. See [`engine/README.md`](engine/README.md).
+> (`ভার্সন`/`কর্ম` fail a faithful port); fixed in both the C++ engine and
+> `engine/Engine.swift` per the macOS `.keylayout` ground truth. See
+> [`engine/README.md`](engine/README.md).
 
 ## Read first
 1. [`../SPEC.md`](../SPEC.md) — the complete, OS-neutral engine spec (keymap + algorithm +

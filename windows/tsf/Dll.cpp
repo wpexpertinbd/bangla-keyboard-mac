@@ -93,6 +93,17 @@ static void UnregisterServer() {
 // ---------------------------------------------------------------------------
 // TSF profile + category registration
 // ---------------------------------------------------------------------------
+// MinGW's msctf.h lacks these TIP-capability category GUIDs (the full Windows
+// SDK declares & defines them). Provide them here for the MinGW build only.
+#ifdef __MINGW32__
+EXTERN_C const GUID GUID_TFCAT_TIPCAP_SECUREMODE =
+    {0x49d2f9ce,0x1f5e,0x11d7,{0xa6,0xd3,0x00,0x06,0x5b,0x84,0x43,0x5c}};
+EXTERN_C const GUID GUID_TFCAT_TIPCAP_UIELEMENTENABLED =
+    {0x49d2f9cf,0x1f5e,0x11d7,{0xa6,0xd3,0x00,0x06,0x5b,0x84,0x43,0x5c}};
+EXTERN_C const GUID GUID_TFCAT_TIPCAP_COMLESS =
+    {0x364215d9,0x75bc,0x11d7,{0xa6,0xef,0x00,0x06,0x5b,0x84,0x43,0x5c}};
+#endif
+
 static const GUID* kCategories[] = {
     &GUID_TFCAT_TIP_KEYBOARD,                 // it's a keyboard TIP
     &GUID_TFCAT_TIPCAP_SECUREMODE,            // works on secure desktops (UAC/login)

@@ -82,7 +82,7 @@ HRESULT ApplyInSession(TextService* ts, TfEditCookie ec, ITfContext* pic, const 
             SetText(ts, ec, pic, r.text);
             EndComposition(ts, ec);
             if (FAILED(StartComposition(ts, ec, pic))) return E_FAIL;
-            return SetText(ts, ec, pic, r.compose);
+            return SetText(ts, ec, pic, r.comp);
     }
     return S_OK;
 }
@@ -142,8 +142,10 @@ STDMETHODIMP TextService::QueryInterface(REFIID riid, void** ppv) {
     if (!ppv) return E_POINTER;
     if (IsEqualIID(riid, IID_IUnknown) || IsEqualIID(riid, IID_ITfTextInputProcessor))
         *ppv = static_cast<ITfTextInputProcessor*>(this);
+#if BK_HAS_TIP_EX
     else if (IsEqualIID(riid, IID_ITfTextInputProcessorEx))
         *ppv = static_cast<ITfTextInputProcessorEx*>(this);
+#endif
     else if (IsEqualIID(riid, IID_ITfThreadMgrEventSink))
         *ppv = static_cast<ITfThreadMgrEventSink*>(this);
     else if (IsEqualIID(riid, IID_ITfKeyEventSink))
@@ -157,13 +159,17 @@ STDMETHODIMP TextService::QueryInterface(REFIID riid, void** ppv) {
 STDMETHODIMP_(ULONG) TextService::AddRef()  { return ++m_cRef; }
 STDMETHODIMP_(ULONG) TextService::Release() { ULONG c = --m_cRef; if (!c) delete this; return c; }
 
-STDMETHODIMP TextService::Activate(ITfThreadMgr* tm, TfClientId id) { return ActivateEx(tm, id, 0); }
-
-STDMETHODIMP TextService::ActivateEx(ITfThreadMgr* tm, TfClientId id, DWORD /*flags*/) {
+HRESULT TextService::doActivate(ITfThreadMgr* tm, TfClientId id) {
     m_pThreadMgr = tm; m_pThreadMgr->AddRef();
     m_clientId = id;
     return advise(tm);
 }
+
+STDMETHODIMP TextService::Activate(ITfThreadMgr* tm, TfClientId id) { return doActivate(tm, id); }
+
+#if BK_HAS_TIP_EX
+STDMETHODIMP TextService::ActivateEx(ITfThreadMgr* tm, TfClientId id, DWORD /*flags*/) { return doActivate(tm, id); }
+#endif
 
 STDMETHODIMP TextService::Deactivate() {
     unadvise();

@@ -11,6 +11,21 @@
 #include <msctf.h>
 #include <ole2.h>
 
+// Older SDK/MinGW headers may lack this constant.
+#ifndef TF_CLIENTID_NULL
+#define TF_CLIENTID_NULL ((TfClientId)0)
+#endif
+
+// ITfTextInputProcessorEx is a newer interface; MinGW's msctf.h doesn't define
+// it. Use it when present (full SDK), else fall back to ITfTextInputProcessor.
+#ifdef __ITfTextInputProcessorEx_INTERFACE_DEFINED__
+#define BK_HAS_TIP_EX 1
+#define BK_TIP_BASE ITfTextInputProcessorEx
+#else
+#define BK_HAS_TIP_EX 0
+#define BK_TIP_BASE ITfTextInputProcessor
+#endif
+
 // --- identity (freshly generated; keep stable once shipped) -------------------
 // TIP class object.
 // {C4720D47-5015-4041-886F-54A92AD69BE2}

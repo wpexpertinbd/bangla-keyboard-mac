@@ -14,3 +14,8 @@ build/
 *.pdb
 *.ilk
 __pycache__/
+
+# ...but keep the dist README (binaries above stay ignored)
+!windows/dist/
+windows/dist/*
+!windows/dist/README.md

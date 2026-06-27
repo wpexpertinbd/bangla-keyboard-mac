@@ -12,16 +12,19 @@ inside the TSF text service ([`../tsf/`](../tsf/)).
 | `verify.py` | a behaviour-faithful Python mirror of the same algorithm |
 | `CMakeLists.txt`, `build-and-test.bat` | build + run the test |
 
-## Status: ✅ algorithm verified — **13/13** SPEC §7 corpus passes
-Verified via `verify.py` (Python iterates strings by Unicode scalar, matching the
-engine's semantics; Bengali is all BMP). `test.cpp` is the identical logic in
-C++; run it once a C++ compiler is available:
+## Status: ✅ verified — **13/13** SPEC §7 corpus passes (compiled C++ and Python)
+Built with MinGW g++ to `../dist/enginetest.exe` and run → 13/13. `verify.py` is a
+Python mirror (Python iterates strings by Unicode scalar, matching the engine's
+semantics; Bengali is all BMP), also 13/13.
 
 ```bat
 python verify.py                :: passes now, no toolchain needed
-build-and-test.bat              :: C++ test (needs MSVC 'cl' or MinGW 'g++')
-:: or: cmake -B build && cmake --build build && ctest --test-dir build --output-on-failure
+..\build-all.bat                :: builds enginetest.exe + bangla-demo.exe (+ DLL)
+build-and-test.bat              :: just the C++ test (MSVC 'cl' or MinGW 'g++')
 ```
+
+`demo.cpp` → `bangla-demo.exe` is a standalone runnable demo of this same engine:
+type on a US-QWERTY keyboard and watch live Bangla (`--keys "c j f"` for batch).
 
 ## Design notes carried over from the spec
 - **UTF-16, BMP-only.** One `char16_t` == one Unicode scalar for every character
