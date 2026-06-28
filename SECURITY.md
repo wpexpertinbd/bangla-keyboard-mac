@@ -109,6 +109,35 @@ The optional **TSF IME** DLL (`windows/tsf/`, not shipped in the release) is an
 in-proc COM keyboard service; it is experimental and excluded from binary releases
 until reviewed and code-signed.
 
+## macOS — voice typing (`Bangla Voice.app`)
+
+The optional macOS voice companion (`macos/voice/`) is a menu-bar agent that captures
+the mic while a mode is on and types what you say. Audited surfaces:
+
+- **No keystroke logging.** Unlike the Windows tray app, it installs **no** keyboard
+  hook — the macOS keyboard is the passive `.keylayout`. The voice app only *captures
+  audio* (when listening) and *injects recognized text*.
+- **One network destination, HTTPS only.** Bangla audio is POSTed to Google's free
+  legacy endpoint (`https://www.google.com/speech-api/v2/recognize`, `STT.swift`) — the
+  only host in the code. English uses Apple's **on-device** `SFSpeechRecognizer`
+  (`requiresOnDeviceRecognition` when supported → audio never leaves the Mac); it only
+  falls back to the same Google `en-US` endpoint if on-device speech is unauthorized/
+  unavailable. No telemetry, no analytics, no other hosts.
+- **Nothing is stored.** No file writes, no `UserDefaults`/Keychain/plist data, no
+  logging of audio or transcripts (verified — zero `print`/`NSLog`/file-write calls).
+  The STT call uses an **ephemeral `URLSession`** (no disk cache, no cookies), so neither
+  the audio nor the response touches disk.
+- **Mic is live only while listening.** Each mode stop removes the audio tap and stops
+  the engine; a menu-bar mic indicator shows the state (blue listening / green speaking).
+- **Injection is bounded.** Recognized text is typed via `CGEvent` Unicode events with
+  **control characters (< U+0020) stripped**, so a bad STT response can't inject
+  Return/Tab/escape sequences.
+- **Least privilege + explicit consent.** Microphone, Speech Recognition, and
+  Accessibility (needed to type into other apps) are each requested via the system TCC
+  prompt; if denied, the app shows a clear alert and does nothing — it never proceeds
+  without the grant. The shared Google key is the well-known public Chromium key, not a
+  secret.
+
 ## Known / accepted items
 
 - **Windows: unsigned + keylogger-shaped tech.** The tray app is not code-signed
