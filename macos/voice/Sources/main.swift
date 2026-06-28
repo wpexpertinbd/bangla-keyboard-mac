@@ -49,9 +49,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         registerHotkeys()
     }
 
+    // App version from the bundle (stamped by build.sh).
+    static var appVersion: String {
+        (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "?"
+    }
+
     // MARK: menu-bar item
     private func buildMenu() {
         let m = NSMenu()
+        let header = NSMenuItem(title: "Bangla Voice  v\(AppDelegate.appVersion)", action: nil, keyEquivalent: "")
+        header.isEnabled = false
+        m.addItem(header)
+        m.addItem(.separator())
         m.addItem(withTitle: "Bangla Voice  (⌃⌥S)", action: #selector(toggleBangla), keyEquivalent: "")
         m.addItem(withTitle: "English Voice  (⌃⌥D)", action: #selector(toggleEnglish), keyEquivalent: "")
         m.addItem(.separator())
@@ -190,7 +199,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
     @objc private func about() {
         let a = NSAlert()
-        a.messageText = "Bangla Voice"
+        a.messageText = "Bangla Voice  v\(AppDelegate.appVersion)"
         a.informativeText = "Free voice typing for the Bangla Keyboard.\n⌃⌥S Bangla · ⌃⌥D English.\n\nSay punctuation as a separate word (after a pause): দাঁড়ি → ।, কমা → ,, প্রশ্ন → ?  ·  English: “full stop”, “comma”, “question mark”.\n\nNothing is stored; mic is live only while listening.\n\nBiswasHost · MIT"
         a.runModal()
     }
