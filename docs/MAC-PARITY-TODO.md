@@ -20,6 +20,17 @@
 
 ## 1. Voice typing — speak Bangla + English (Windows `win-v1.1.1`)
 
+> **✅ macOS port DONE — `macos/voice/` (`Bangla Voice.app`), pending real-device test.**
+> Menu-bar agent: ⌃⌥S Bangla / ⌃⌥D English; `AVAudioEngine` capture + the same RMS/700 ms
+> VAD as `voice.html`; 16 kHz L16 → Google `bn-BD` (fallback `bn-IN`) / `en-US`; `CGEvent`
+> Unicode injection; blue/green menu-bar mic. Builds + launches + logic unit-tested on
+> macOS 26. **v1 uses the uniform HTTP path for BOTH languages** (only Microphone permission
+> needed); the `SFSpeechRecognizer` live-English upgrade below is left as a future option.
+> Deviation: the menu-bar item is **persistent** (dim when off) rather than removed-when-idle,
+> because on macOS it's the app's only control surface (start/quit). Still TODO: user grants
+> Mic + Accessibility and verifies live recognition/injection; then fold into the DMG + cut a
+> macOS release.
+
 The headline feature to port. **Everything is free — no paid API, nothing stored.**
 
 ### Behavior to match
