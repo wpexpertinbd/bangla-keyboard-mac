@@ -25,9 +25,29 @@ TYPING
     must install a compatible legacy ANSI Bangla font from your own legitimate
     source, then select that font in your app.
 
+VOICE TYPING  (optional, needs internet)
+  Ctrl + Alt + S     Bangla voice   (speak Bangla -> types at the cursor)
+  Ctrl + Alt + D     English voice  (speak English)
+  Press the same shortcut again to stop. A small microphone icon appears near the
+  clock while listening — blue = listening, green = hearing your voice — and goes
+  away when you stop. A "।" (Bangla) or "." (English) is added at the end of each
+  sentence automatically.
+
+  - Bangla uses a free online speech service for correct Bangladeshi spelling: speak
+    a sentence, pause briefly, and the text appears. English types as you speak.
+  - It's a free, unofficial service, so under heavy load it may fall back to a
+    secondary Bangla voice — typing keeps working either way.
+  - Requires the Microsoft Edge WebView2 Runtime (already on Windows 11 and most
+    Windows 10 PCs via Edge). If voice doesn't start, install it (free) from
+    https://developer.microsoft.com/microsoft-edge/webview2/ and try again.
+  - Nothing is recorded or stored: audio goes to the speech service and the
+    recognized text is typed — no files, no history. Leave the voice option
+    unticked at install if you'd rather not have the feature at all.
+
 ENGLISH SHORTCUTS
   All normal shortcuts keep working — Ctrl+C/V/X/A (copy/paste/cut/select-all),
   Ctrl+S / Ctrl+Shift+S, Ctrl+Z/Y, Alt+F4, Alt+Tab, Win+..., arrows, etc.
+  (Voice uses Ctrl+Alt+S/D, so plain Ctrl+S and friends are unaffected.)
 
 START WITH WINDOWS
   Tick "Start automatically when I sign in" during install (or drop a shortcut to

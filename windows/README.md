@@ -1,6 +1,6 @@
-# Bangla Keyboard — Windows port (TSF IME)
+# Bangla Keyboard — Windows port
 
-> **Status: in progress — engine done, IME builds & loads.**
+> **Status: shipping — the tray app is released (`win-v1.1.0`); the TSF IME is experimental.**
 > - ✅ **Engine ported to C++** ([`engine/`](engine/)) — **13/13** SPEC §7 corpus
 >   (compiled `enginetest.exe`; `engine/verify.py` is a Python mirror).
 > - ✅ **TSF text service** ([`tsf/`](tsf/)) — builds to `BanglaKeyboard.dll` (x64)
@@ -14,6 +14,12 @@
 >   and Bangla Classic are driven by FSM tables generated from the Mac `.keylayout`
 >   files, so output is byte-identical to the Mac (20/20 + 12/12 vs the validated
 >   interpreter). Independent vowels match too: `f`→া, `Shift+f`→অ, `Shift+f f`→আ.
+> - ✅ **Voice typing** ([`voice/`](voice/)) — `bangla-voice.exe`: speak **Bangla
+>   (Ctrl+Alt+S)** or **English (Ctrl+Alt+D)** and it types at the cursor. Free online
+>   STT — correct Bangladeshi **bn-BD** via Google's legacy endpoint (POSTed from
+>   native code), English via the browser **Web Speech** API; an off-screen WebView2
+>   captures the mic, a tray icon shows state, "।"/"." is auto-appended. Opt-in at
+>   install. See [`SECURITY.md`](../SECURITY.md) for the privacy/network audit.
 > - ✅ **Runnable demo** — `bangla-demo.exe`: type on your keyboard, see live Bangla.
 > - 🟡 **Installer** ([`installer/`](installer/)) — `register.bat`/`unregister.bat`
 >   work; a packaged signed installer is still TODO.
@@ -61,9 +67,11 @@ is not the deliverable.)
 ## Layout this folder like
 ```
 windows/
-├── engine/        # pure C++ engine + headless tests (port of ../engine/Engine.swift)
-├── tsf/           # the TSF TIP COM DLL (Visual Studio project)
-├── installer/     # MSIX / EXE
+├── engine/        # C++ engine + FSM tables (KLEngine) + headless tests
+├── tray/          # bangla-tray.exe — the shipped tray switcher
+├── voice/         # bangla-voice.exe — online voice typing (WebView2 + Google STT)
+├── tsf/           # experimental TSF TIP COM DLL (not shipped)
+├── installer/     # Inno Setup installer (.iss)
 └── README.md
 ```
 

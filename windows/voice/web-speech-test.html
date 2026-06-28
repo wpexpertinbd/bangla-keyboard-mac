@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bangla Keyboard — Voice (Web Speech) test</title>
+<style>
+  :root { --bg:#0f1115; --card:#171a21; --fg:#e8eaed; --mut:#9aa0a6; --green:#22a05a;
+          --red:#e0413a; --blue:#2563eb; --line:#262b34; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:'Segoe UI','Nirmala UI',system-ui,sans-serif; background:var(--bg);
+         color:var(--fg); display:flex; justify-content:center; padding:24px; }
+  .wrap { width:min(720px,100%); }
+  h1 { font-size:20px; margin:0 0 4px; }
+  .sub { color:var(--mut); font-size:13px; margin-bottom:16px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; margin-bottom:14px; }
+  .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  button { font:inherit; border:0; border-radius:10px; padding:10px 16px; cursor:pointer; color:#fff; }
+  .lang { background:#222732; color:var(--fg); border:1px solid var(--line); }
+  .lang.active { background:var(--blue); color:#fff; border-color:var(--blue); }
+  #mic { background:var(--green); font-size:17px; font-weight:600; padding:14px 22px; border-radius:12px; }
+  #mic.listening { background:var(--red); }
+  .status { font-size:13px; color:var(--mut); margin-top:10px; }
+  .out { min-height:90px; background:#0c0e12; border:1px solid var(--line); border-radius:10px;
+         padding:14px; font-size:22px; line-height:1.5; white-space:pre-wrap; word-break:break-word; }
+  .interim { color:var(--mut); }
+  .meta { font-size:12px; color:var(--mut); margin-top:8px; }
+  .err { color:#ff6b6b; font-size:13px; margin-top:10px; min-height:18px; }
+  .ok { color:#34d399; } .warn { color:#fbbf24; }
+  code { background:#222732; padding:1px 6px; border-radius:5px; }
+  .verdict { font-size:14px; margin-top:6px; }
+  ul { margin:6px 0 0; padding-left:20px; color:var(--mut); font-size:13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🎤 Bangla Keyboard — Voice (Web Speech) test</h1>
+  <div class="sub">এটা শুধু একটা টেস্ট পেজ। লক্ষ্য: <b>Edge</b>-এ (= WebView2-র engine) free Web Speech API
+    বাংলা + ইংরেজি ঠিকঠাক কাজ করে কিনা দেখা।</div>
+
+  <div class="card">
+    <div class="row">
+      <button id="mic">🎤 Start listening</button>
+      <span class="status" id="status">idle</span>
+    </div>
+    <div class="row" style="margin-top:12px;">
+      <span style="color:var(--mut);font-size:13px;">Language:</span>
+      <button class="lang active" data-lang="bn-BD">বাংলা (bn-BD)</button>
+      <button class="lang" data-lang="en-US">English (en-US)</button>
+      <button class="lang" data-lang="bn-IN">বাংলা (bn-IN)</button>
+      <label style="color:var(--mut);font-size:13px;margin-left:auto;">
+        <input type="checkbox" id="cont" checked> continuous</label>
+    </div>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="card">
+    <div class="out" id="out"><span class="interim" id="interim"></span></div>
+    <div class="meta" id="meta"></div>
+    <div class="row" style="margin-top:10px;">
+      <button class="lang" id="copy">Copy text</button>
+      <button class="lang" id="clear">Clear</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <b>পরীক্ষা যেভাবে করবেন:</b>
+    <ul>
+      <li><b>Edge</b>-এ খুলুন (Chrome-ও চলবে), <code>http://localhost:...</code> দিয়ে (নিচে দেখুন)।</li>
+      <li>“Start listening” চেপে mic permission <b>Allow</b> করুন।</li>
+      <li>বাংলা বলুন → বাংলা লেখা আসা উচিত। English ভাষা সিলেক্ট করে ইংরেজি বলুন।</li>
+      <li>যদি লাল <span class="err" style="display:inline">network / not-allowed / service-not-allowed</span>
+        error আসে → মানে এই engine-এ free speech backend নাই (তখন fallback লাগবে)।</li>
+    </ul>
+    <div class="verdict" id="verdict"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const $ = id => document.getElementById(id);
+  const out = $('out'), interim = $('interim'), status = $('status'), errEl = $('err'),
+        meta = $('meta'), verdict = $('verdict'), micBtn = $('mic');
+  let lang = 'bn-BD', rec = null, listening = false, finalText = '', sawResult = false;
+
+  if (!window.isSecureContext) {
+    verdict.innerHTML = '<span class="warn">⚠ Not a secure context — serve over http://localhost or https, '
+      + 'or the mic/Speech API may be blocked. (Don\'t open via file://.)</span>';
+  }
+  if (!SR) {
+    errEl.textContent = 'This browser has no SpeechRecognition API. Use Edge or Chrome.';
+    micBtn.disabled = true; return;
+  }
+
+  document.querySelectorAll('.lang[data-lang]').forEach(b => b.onclick = () => {
+    document.querySelectorAll('.lang[data-lang]').forEach(x => x.classList.remove('active'));
+    b.classList.add('active'); lang = b.dataset.lang;
+    if (listening) { stop(); start(); }
+  });
+  $('clear').onclick = () => { finalText = ''; out.innerHTML = '<span class="interim" id="interim"></span>'; meta.textContent=''; };
+  $('copy').onclick = () => navigator.clipboard.writeText(finalText.trim());
+
+  function render(itxt) {
+    out.textContent = finalText;
+    const s = document.createElement('span'); s.className = 'interim'; s.textContent = itxt;
+    out.appendChild(s);
+  }
+
+  function start() {
+    errEl.textContent = ''; sawResult = false;
+    rec = new SR();
+    rec.lang = lang;
+    rec.continuous = $('cont').checked;
+    rec.interimResults = true;
+    rec.maxAlternatives = 1;
+    rec.onstart = () => { listening = true; micBtn.classList.add('listening'); micBtn.textContent = '⏹ Stop'; status.textContent = 'listening… (' + lang + ')'; };
+    rec.onerror = e => {
+      errEl.textContent = 'error: ' + e.error + (e.message ? ' — ' + e.message : '');
+      if (e.error === 'network' || e.error === 'service-not-allowed')
+        verdict.innerHTML = '<span class="err">✗ No free speech backend in this engine ('+e.error+'). '
+          + 'WebView2 likely won\'t work either → we\'ll need the HTTP fallback.</span>';
+      if (e.error === 'not-allowed')
+        verdict.innerHTML = '<span class="warn">⚠ Mic permission denied — click the lock icon → allow microphone, retry.</span>';
+    };
+    rec.onresult = e => {
+      sawResult = true;
+      let itxt = '';
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const r = e.results[i];
+        if (r.isFinal) {
+          finalText += r[0].transcript + ' ';
+          meta.textContent = 'last: confidence ' + (r[0].confidence ? r[0].confidence.toFixed(2) : 'n/a') + '  ·  lang ' + lang;
+          verdict.innerHTML = '<span class="ok">✓ Works in this engine! Free speech backend is available → WebView2 will work.</span>';
+        } else itxt += r[0].transcript;
+      }
+      render(itxt);
+    };
+    rec.onend = () => {
+      listening = false; micBtn.classList.remove('listening'); micBtn.textContent = '🎤 Start listening';
+      status.textContent = sawResult ? 'stopped' : 'stopped (no result)';
+      render('');
+    };
+    try { rec.start(); } catch (err) { errEl.textContent = 'start failed: ' + err; }
+  }
+  function stop() { if (rec) { try { rec.stop(); } catch(e){} } }
+  micBtn.onclick = () => listening ? stop() : start();
+})();
+</script>
+</body>
+</html>

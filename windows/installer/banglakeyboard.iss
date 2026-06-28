@@ -8,7 +8,7 @@
 ; and MyAppVersion below.
 
 #define MyAppName "Bangla Keyboard"
-#define MyAppVersion "1.0.0"
+#define MyAppVersion "1.1.0"
 #define MyAppPublisher "BiswasHost"
 #define MyAppExe "bangla-tray.exe"
 #define MyAppURL "https://github.com/wpexpertinbd/bangla-keyboard"
@@ -47,17 +47,26 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Messages]
 WelcomeLabel1=Welcome to Bangla Keyboard
-WelcomeLabel2=A free Bangla keyboard for Windows — type Bangla in any app and switch right from the system tray.%n%n      -   Bangla Unicode  (Ctrl+Alt+V)%n      -   Bangla Classic  (Ctrl+Alt+B)%n      -   Works in every app; all English shortcuts keep working%n%nMIT licensed, free & open-source — by BiswasHost.
+WelcomeLabel2=A free Bangla keyboard for Windows — type Bangla in any app and switch right from the system tray.%n%n      -   Bangla Unicode  (Ctrl+Alt+V)%n      -   Bangla Classic  (Ctrl+Alt+B)%n      -   Voice typing — Bangla (Ctrl+Alt+S) / English (Ctrl+Alt+D), needs internet%n      -   Works in every app; all English shortcuts keep working%n%nMIT licensed, free & open-source — by BiswasHost.
 
 [Tasks]
 Name: "desktopicon"; Description: "Create a desktop shortcut"; GroupDescription: "Additional icons:"; Flags: unchecked
 Name: "startup"; Description: "Start Bangla Keyboard automatically when I sign in"; GroupDescription: "Startup:"
+; Default ON. Unchecking fully omits the voice files + disables the feature (no
+; menu items, nothing launched). Uses a free online speech service, so it needs internet.
+Name: "voice"; Description: "Voice typing — speak Bangla/English (requires an internet connection)"; GroupDescription: "Voice typing:"
 Name: "fonts"; Description: "Install 14 free Bangla Unicode fonts (SolaimanLipi, Kalpurush, Siyam Rupali, …)"; GroupDescription: "Fonts:"
 
 [Files]
 Source: "..\dist\bangla-tray.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\tray\banglakeyboard.ico"; DestDir: "{app}"; Flags: ignoreversion
 Source: "USAGE.txt"; DestDir: "{app}"; Flags: ignoreversion isreadme
+; Voice typing (only when the "voice" task is selected): the WebView2 host, the
+; redistributable loader, and the speech page. The tray launches bangla-voice.exe
+; when VoiceEnabled (set in [Registry] below).
+Source: "..\dist\bangla-voice.exe";      DestDir: "{app}";       Flags: ignoreversion; Tasks: voice
+Source: "..\dist\WebView2Loader.dll";    DestDir: "{app}";       Flags: ignoreversion; Tasks: voice
+Source: "..\dist\voice\voice.html";      DestDir: "{app}\voice"; Flags: ignoreversion; Tasks: voice
 ; Free/libre Bangla Unicode fonts (same set as the macOS build). Installed per-user
 ; into {autofonts}; won't overwrite a font the user already has; left in place on
 ; uninstall. Sourced from the shared macos/ font files.
@@ -76,6 +85,12 @@ Source: "..\..\macos\src\fonts\Bangla.ttf";                  DestDir: "{autofont
 Source: "..\..\macos\src\fonts\BenSen.ttf";                  DestDir: "{autofonts}"; FontInstall: "BenSen";         Flags: onlyifdoesntexist uninsneveruninstall; Tasks: fonts
 Source: "..\..\macos\src\fonts\BenSenHandwriting.ttf";       DestDir: "{autofonts}"; FontInstall: "BenSenHandwriting"; Flags: onlyifdoesntexist uninsneveruninstall; Tasks: fonts
 
+[Registry]
+; The tray reads this to decide whether to run the voice companion + show its menu.
+Root: HKCU; Subkey: "Software\BanglaKeyboard"; Flags: uninsdeletekeyifempty
+Root: HKCU; Subkey: "Software\BanglaKeyboard"; ValueType: dword; ValueName: "VoiceEnabled"; ValueData: "1"; Check: VoiceChecked; Flags: uninsdeletevalue
+Root: HKCU; Subkey: "Software\BanglaKeyboard"; ValueType: dword; ValueName: "VoiceEnabled"; ValueData: "0"; Check: not VoiceChecked; Flags: uninsdeletevalue
+
 [Icons]
 Name: "{group}\Bangla Keyboard"; Filename: "{app}\{#MyAppExe}"; IconFilename: "{app}\banglakeyboard.ico"
 Name: "{group}\Uninstall Bangla Keyboard"; Filename: "{uninstallexe}"
@@ -86,12 +101,20 @@ Name: "{userstartup}\Bangla Keyboard"; Filename: "{app}\{#MyAppExe}"; Tasks: sta
 Filename: "{app}\{#MyAppExe}"; Description: "Launch Bangla Keyboard now"; Flags: nowait postinstall skipifsilent
 
 [Code]
-// Force-close any running tray instance before install / uninstall so the EXE
-// isn't locked (the app hides to the tray, so a window-based close won't do).
+// True when the user kept the "voice" task ticked — used to write VoiceEnabled.
+function VoiceChecked: Boolean;
+begin
+  Result := WizardIsTaskSelected('voice');
+end;
+
+// Force-close any running tray + voice instance before install / uninstall so the
+// EXEs aren't locked (the apps hide to the tray, so a window-based close won't do).
 procedure KillTray;
 var ResultCode: Integer;
 begin
   Exec(ExpandConstant('{cmd}'), '/c taskkill /f /im {#MyAppExe}', '',
+       SW_HIDE, ewWaitUntilTerminated, ResultCode);
+  Exec(ExpandConstant('{cmd}'), '/c taskkill /f /im bangla-voice.exe', '',
        SW_HIDE, ewWaitUntilTerminated, ResultCode);
 end;
 

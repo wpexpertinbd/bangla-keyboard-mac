@@ -20,3 +20,8 @@ __pycache__/
 !windows/dist/
 windows/dist/*
 !windows/dist/README.md
+
+# ...and keep the vendored WebView2 loader DLLs (Microsoft redistributable, required
+# to ship the voice feature; not a build artifact)
+!windows/voice/sdk/x64/WebView2Loader.dll
+!windows/voice/sdk/x86/WebView2Loader.dll

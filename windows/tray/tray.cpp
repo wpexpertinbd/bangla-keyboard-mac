@@ -51,15 +51,60 @@ static HICON           g_icoEn  = nullptr; // E on grey circle
 static HBITMAP         g_bmpUni = nullptr; // 16x16 versions for the popup menu
 static HBITMAP         g_bmpCls = nullptr;
 static HBITMAP         g_bmpEn  = nullptr;
+static HBITMAP         g_bmpVoiceBn = nullptr; // green mic (Bangla Voice)
+static HBITMAP         g_bmpVoiceEn = nullptr; // blue mic  (English Voice)
 
-#define WM_TRAY     (WM_APP + 1)
-#define ID_UNICODE  1001
-#define ID_CLASSIC  1002
-#define ID_ENGLISH  1003
-#define ID_ABOUT    1010
-#define ID_EXIT     1011
+#define WM_TRAY       (WM_APP + 1)
+#define ID_UNICODE      1001
+#define ID_CLASSIC      1002
+#define ID_ENGLISH      1003
+#define ID_VOICE_BN     1004   // Bangla voice  (-> bangla-voice.exe)
+#define ID_VOICE_EN     1005   // English voice
+#define ID_VOICE_TOGGLE 1006   // enable/disable the voice companion
+#define ID_ABOUT        1010
+#define ID_EXIT         1011
 #define HOTKEY_UNICODE 1   // Ctrl+Alt+V toggles Bangla Unicode <-> English
 #define HOTKEY_CLASSIC 2   // Ctrl+Alt+B toggles Bangla Classic <-> English
+
+// messages posted to the bangla-voice.exe window ("BanglaVoice"); see voicehost.cpp
+#define WM_VOICE_BN   (WM_APP + 1)
+#define WM_VOICE_EN   (WM_APP + 2)
+#define WM_VOICE_QUIT (WM_APP + 3)
+
+// ---- voice companion (bangla-voice.exe, online voice typing) ----------------
+// A separate process so a WebView2 hiccup can't disturb the keyboard hook. The
+// tray launches it at startup (when enabled), the menu items just message it, and
+// it owns its own Ctrl+Alt+S / Ctrl+Alt+D hotkeys + indicator. Enable state lives
+// in HKCU so the installer's first-run opt-in and the menu toggle agree.
+static bool g_voiceEnabled = true;
+
+static bool readVoiceEnabled() {
+    DWORD v = 1, sz = sizeof(v);
+    if (RegGetValueW(HKEY_CURRENT_USER, L"Software\\BanglaKeyboard", L"VoiceEnabled",
+                     RRF_RT_REG_DWORD, nullptr, &v, &sz) == ERROR_SUCCESS)
+        return v != 0;
+    return true;   // default ON when unset (installer normally writes it)
+}
+static void voiceExePath(wchar_t* out) {                 // <tray exe dir>\bangla-voice.exe
+    GetModuleFileNameW(nullptr, out, MAX_PATH);
+    wchar_t* s = wcsrchr(out, L'\\'); if (s) s[1] = 0;
+    lstrcatW(out, L"bangla-voice.exe");
+}
+static HWND voiceWnd() { return FindWindowW(L"BanglaVoice", nullptr); }
+static void launchVoice() {
+    if (voiceWnd()) return;                              // already running (also self-guards)
+    wchar_t exe[MAX_PATH]; voiceExePath(exe);
+    if (GetFileAttributesW(exe) == INVALID_FILE_ATTRIBUTES) return;  // not installed
+    wchar_t dir[MAX_PATH]; lstrcpynW(dir, exe, MAX_PATH);
+    wchar_t* s = wcsrchr(dir, L'\\'); if (s) *s = 0;
+    ShellExecuteW(nullptr, L"open", exe, nullptr, dir, SW_HIDE);
+}
+static void voicePost(UINT msg) {
+    HWND v = voiceWnd();
+    if (v) PostMessageW(v, msg, 0, 0);
+    else   launchVoice();   // wasn't running; start it (use the hotkey once it's up)
+}
+static void quitVoice() { HWND v = voiceWnd(); if (v) PostMessageW(v, WM_VOICE_QUIT, 0, 0); }
 
 // ---- key injection ---------------------------------------------------------
 static void sendBackspaces(int n) {
@@ -217,6 +262,24 @@ static HBITMAP makeMenuBitmap(const wchar_t* txt, COLORREF circle, COLORREF fg) 
     return bmp;
 }
 
+// 16x16 microphone glyph (white) on a colored square, for the voice menu items.
+static HBITMAP makeMicBitmap(COLORREF bg) {
+    const int sz = 16;
+    HDC sdc = GetDC(nullptr); HDC dc = CreateCompatibleDC(sdc);
+    HBITMAP bmp = CreateCompatibleBitmap(sdc, sz, sz);
+    HGDIOBJ ob = SelectObject(dc, bmp);
+    RECT r = {0, 0, sz, sz};
+    HBRUSH b = CreateSolidBrush(bg); FillRect(dc, &r, b); DeleteObject(b);
+    HGDIOBJ op  = SelectObject(dc, GetStockObject(NULL_PEN));
+    HGDIOBJ obr = SelectObject(dc, GetStockObject(WHITE_BRUSH));
+    RoundRect(dc, 6, 2, 10, 9, 4, 4);   // mic capsule
+    Rectangle(dc, 7, 9, 9, 12);         // stem
+    Rectangle(dc, 5, 12, 11, 13);       // base
+    SelectObject(dc, op); SelectObject(dc, obr);
+    SelectObject(dc, ob); DeleteDC(dc); ReleaseDC(nullptr, sdc);
+    return bmp;
+}
+
 static const wchar_t* modeTip() {
     switch (g_mode) {
         case MODE_UNICODE: return L"Bangla Keyboard — Bangla Unicode  (Ctrl+Alt+V toggles)";
@@ -268,6 +331,13 @@ static void showMenu() {
     setBmp(ID_UNICODE, g_bmpUni);
     setBmp(ID_CLASSIC, g_bmpCls);
     setBmp(ID_ENGLISH, g_bmpEn);
+    if (g_voiceEnabled) {
+        AppendMenuW(m, MF_SEPARATOR, 0, nullptr);
+        AppendMenuW(m, MF_STRING, ID_VOICE_BN, L"Bangla Voice\tCtrl+Alt+S");
+        AppendMenuW(m, MF_STRING, ID_VOICE_EN, L"English Voice\tCtrl+Alt+D");
+        setBmp(ID_VOICE_BN, g_bmpVoiceBn);   // green mic
+        setBmp(ID_VOICE_EN, g_bmpVoiceEn);   // blue mic
+    }
     AppendMenuW(m, MF_SEPARATOR, 0, nullptr);
     AppendMenuW(m, MF_STRING, ID_ABOUT, L"About");
     AppendMenuW(m, MF_STRING, ID_EXIT, L"Close");
@@ -287,6 +357,8 @@ static LRESULT CALLBACK wndProc(HWND h, UINT msg, WPARAM wp, LPARAM lp) {
                 case ID_UNICODE: setMode(MODE_UNICODE); break;
                 case ID_CLASSIC: setMode(MODE_CLASSIC); break;
                 case ID_ENGLISH: setMode(MODE_ENGLISH); break;
+                case ID_VOICE_BN: voicePost(WM_VOICE_BN); break;
+                case ID_VOICE_EN: voicePost(WM_VOICE_EN); break;
                 case ID_ABOUT:
                     MessageBoxW(h,
                         L"Bangla Keyboard — tray switcher\n\n"
@@ -296,6 +368,8 @@ static LRESULT CALLBACK wndProc(HWND h, UINT msg, WPARAM wp, LPARAM lp) {
                         L"Switch: this menu, click the tray icon, or shortcuts —\n"
                         L"  Ctrl+Alt+V = Bangla Unicode (press again = English)\n"
                         L"  Ctrl+Alt+B = Bangla Classic (press again = English)\n\n"
+                        L"Voice typing (needs internet):\n"
+                        L"  Ctrl+Alt+S = Bangla voice,  Ctrl+Alt+D = English voice\n\n"
                         L"All English shortcuts (Ctrl+C/V/A/S, etc.) work normally.\n"
                         L"Same fixed layout as the macOS build.\n"
                         L"MIT licensed.",
@@ -340,6 +414,8 @@ int WINAPI wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR, int) {
     g_bmpUni = makeMenuBitmap(L"অ", RGB(244, 42, 65), white);
     g_bmpCls = makeMenuBitmap(L"ক", RGB(192, 57, 43), white);
     g_bmpEn  = makeMenuBitmap(L"E", white, black);
+    g_bmpVoiceBn = makeMicBitmap(RGB(34, 160, 90));   // green mic
+    g_bmpVoiceEn = makeMicBitmap(RGB(37, 99, 235));   // blue mic
 
     g_nid.cbSize = sizeof(g_nid);
     g_nid.hWnd   = g_hWnd;
@@ -354,10 +430,15 @@ int WINAPI wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR, int) {
     RegisterHotKey(g_hWnd, HOTKEY_UNICODE, MOD_CONTROL | MOD_ALT, 'V'); // Bangla Unicode
     RegisterHotKey(g_hWnd, HOTKEY_CLASSIC, MOD_CONTROL | MOD_ALT, 'B'); // Bangla Classic
 
+    g_voiceEnabled = readVoiceEnabled();      // start the voice companion if opted in
+    if (g_voiceEnabled) launchVoice();
+
     balloon(L"Bangla Keyboard", L"In the tray. Ctrl+Alt+V = Bangla Unicode, Ctrl+Alt+B = Bangla Classic (press again for English). Right-click for the menu.");
 
     MSG msg;
     while (GetMessageW(&msg, nullptr, 0, 0)) { TranslateMessage(&msg); DispatchMessageW(&msg); }
+
+    quitVoice();   // close the voice companion when the tray exits
 
     if (g_hook) UnhookWindowsHookEx(g_hook);
     UnregisterHotKey(g_hWnd, HOTKEY_UNICODE);
@@ -368,6 +449,8 @@ int WINAPI wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR, int) {
     if (g_bmpUni) DeleteObject(g_bmpUni);
     if (g_bmpCls) DeleteObject(g_bmpCls);
     if (g_bmpEn)  DeleteObject(g_bmpEn);
+    if (g_bmpVoiceBn) DeleteObject(g_bmpVoiceBn);
+    if (g_bmpVoiceEn) DeleteObject(g_bmpVoiceEn);
     if (once) { ReleaseMutex(once); CloseHandle(once); }
     return 0;
 }

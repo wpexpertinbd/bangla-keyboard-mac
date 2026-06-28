@@ -28,7 +28,12 @@ echo "[x64] klengine-test + enginetest + bangla-demo + bangla-tray"
 "$GXX64" -B"$B64" -std=c++17 -O2 -static -finput-charset=UTF-8 engine/test.cpp engine/engine.cpp -o dist/enginetest.exe
 "$GXX64" -B"$B64" -std=c++17 -O2 -static -finput-charset=UTF-8 engine/demo.cpp engine/klengine.cpp -o dist/bangla-demo.exe
 "$B64/windres" tray/tray.rc -o tray/tray_res.o   # app icon + version info
-"$GXX64" -B"$B64" -std=c++17 -O2 -static -mwindows -municode -finput-charset=UTF-8 tray/tray.cpp tray/tray_res.o engine/klengine.cpp -o dist/bangla-tray.exe -lgdi32 -luser32 -lshell32
+"$GXX64" -B"$B64" -std=c++17 -O2 -static -mwindows -municode -finput-charset=UTF-8 tray/tray.cpp tray/tray_res.o engine/klengine.cpp -o dist/bangla-tray.exe -lgdi32 -luser32 -lshell32 -ladvapi32
+echo "[x64] bangla-voice (WebView2 online voice typing)"
+"$B64/windres" voice/voice.rc -o voice/voice_res.o   # app icon + version info
+"$GXX64" -B"$B64" -std=c++17 -O2 -static -mwindows -municode -finput-charset=UTF-8 -Ivoice/sdk/include voice/voicehost.cpp voice/voice_res.o -o dist/bangla-voice.exe -lole32 -luser32 -lshlwapi -lshell32 -lwinhttp -lcrypt32
+cp -f voice/sdk/x64/WebView2Loader.dll dist/WebView2Loader.dll      # redistributable, ship next to the exe
+mkdir -p dist/voice && cp -f voice/voice.html dist/voice/voice.html  # the speech page (loaded via virtual host)
 echo "[x64] BanglaKeyboard.dll + loadtest.exe"
 "$GXX64" -B"$B64" $DLL_FLAGS $DLL_SRC -o dist/BanglaKeyboard.dll $DLL_LIBS
 "$GXX64" -B"$B64" -std=c++17 -O2 -static tsf/loadtest.cpp -o dist/loadtest.exe -lole32 -loleaut32 -luuid

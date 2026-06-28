@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<title>Bangla Keyboard — Voice</title>
+<style>html,body{margin:0;background:#0f1115;color:#9aa0a6;font:13px 'Segoe UI',sans-serif}#s{padding:8px}</style>
+</head>
+<body>
+<div id="s">voice engine</div>
+<script>
+// Runs hidden inside bangla-voice.exe. Driven by the host via postMessage:
+//   "start:en" -> English Web Speech (instant)   "start:bn" -> Bangla
+//   "stop", "fallback" (bn-BD throttled -> bn-IN Web Speech)
+// Sends to host:  "t:<text>" (final text), "a:<base64 16k PCM>" (Bangla utterance),
+//   "s:speak"/"s:idle" (mic state for the tray colour).
+(function () {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const bridge = window.chrome && window.chrome.webview;
+  const send = m => { if (bridge) bridge.postMessage(m); };
+  const dbg  = t => { const e = document.getElementById('s'); if (e) e.textContent = t; };
+  let mode = '', rec = null, bnFallback = false;
+
+  // ---- Web Speech: English, and the bn-IN fallback -------------------------
+  function startWebSpeech(lang, isBn) {
+    stopAll();
+    rec = new SR(); rec.lang = lang; rec.continuous = true; rec.interimResults = true; rec.maxAlternatives = 1;
+    let st = '';
+    rec.onspeechstart = () => { if (st !== 'speak') { st = 'speak'; send('s:speak'); } };
+    rec.onspeechend   = () => { if (st !== 'idle')  { st = 'idle';  send('s:idle');  } };
+    rec.onerror = () => {};
+    rec.onresult = e => {
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const r = e.results[i]; if (!r.isFinal) continue;
+        let t = r[0].transcript.trim(); if (!t) continue;
+        if (isBn) { if (!/[।.!?]$/.test(t)) t += '।'; }
+        else { t = t.charAt(0).toUpperCase() + t.slice(1); if (!/[।.!?]$/.test(t)) t += '.'; }
+        send('t:' + t + ' ');
+      }
+    };
+    try { rec.start(); dbg('listening ' + lang); } catch (e) {}
+  }
+
+  // ---- Bangla primary: capture mic PCM, send utterances to the host (bn-BD) -
+  let actx, srcN, procN, stream, buf = [], speaking = false, silence = 0;
+  async function startBanglaCapture() {
+    stopAll();
+    try {
+      stream = await navigator.mediaDevices.getUserMedia(
+        { audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
+    } catch (e) { dbg('mic error'); return; }
+    actx = new (window.AudioContext || window.webkitAudioContext)();
+    try { await actx.resume(); } catch (e) {}
+    srcN = actx.createMediaStreamSource(stream);
+    procN = actx.createScriptProcessor(4096, 1, 1);
+    srcN.connect(procN); procN.connect(actx.destination);
+    procN.onaudioprocess = e => {
+      const x = e.inputBuffer.getChannelData(0);
+      let s = 0; for (let i = 0; i < x.length; i++) s += x[i] * x[i];
+      const rms = Math.sqrt(s / x.length);
+      if (rms > 0.012) {                                  // speech
+        if (!speaking) { speaking = true; send('s:speak'); }
+        silence = 0; buf.push(new Float32Array(x));
+      } else if (speaking) {                              // trailing silence
+        buf.push(new Float32Array(x));
+        silence += x.length / actx.sampleRate * 1000;
+        if (silence > 700) { speaking = false; send('s:idle'); flush(); }  // utterance end
+      }
+    };
+    dbg('listening bn-BD');
+  }
+  function flush() {
+    let n = 0; buf.forEach(b => n += b.length);
+    if (!n) { buf = []; silence = 0; return; }
+    const flat = new Float32Array(n); let o = 0; buf.forEach(b => { flat.set(b, o); o += b.length; });
+    buf = []; silence = 0;
+    const pcm = down16(flat, actx.sampleRate);
+    if (pcm.length < 1600) return;                        // < 0.1s -> noise
+    send('a:' + b64(new Uint8Array(pcm.buffer)));
+  }
+  function down16(f, inRate) {
+    const ratio = inRate / 16000, outLen = Math.floor(f.length / ratio), out = new Int16Array(outLen);
+    for (let i = 0; i < outLen; i++) {
+      const idx = i * ratio, i0 = Math.floor(idx), fr = idx - i0;
+      const v = (f[i0] || 0) * (1 - fr) + (f[i0 + 1] || 0) * fr;
+      out[i] = Math.max(-32768, Math.min(32767, v * 32767));
+    }
+    return out;
+  }
+  function b64(bytes) { let s = ''; const C = 0x8000;
+    for (let i = 0; i < bytes.length; i += C) s += String.fromCharCode.apply(null, bytes.subarray(i, i + C));
+    return btoa(s); }
+
+  function stopAll() {
+    if (rec) { try { rec.stop(); } catch (e) {} rec = null; }
+    if (procN) { try { procN.disconnect(); } catch (e) {} }
+    if (srcN)  { try { srcN.disconnect();  } catch (e) {} }
+    if (stream) stream.getTracks().forEach(t => t.stop());
+    if (actx) { try { actx.close(); } catch (e) {} }
+    procN = srcN = stream = actx = null; buf = []; speaking = false; silence = 0;
+  }
+  function startMode(m) {
+    mode = m;
+    if (m === 'en') startWebSpeech('en-US', false);
+    else if (m === 'bn') { if (bnFallback) startWebSpeech('bn-IN', true); else startBanglaCapture(); }
+  }
+  function stop() { mode = ''; stopAll(); send('s:idle'); dbg('idle'); }
+
+  if (!SR && !bridge) { dbg('no speech api'); }
+  if (bridge) bridge.addEventListener('message', e => {
+    const c = String(e.data || '');
+    if (c === 'stop') stop();
+    else if (c === 'fallback') { bnFallback = true; if (mode === 'bn') startWebSpeech('bn-IN', true); }
+    else if (c.indexOf('start:') === 0) startMode(c.slice(6));
+  });
+})();
+</script>
+</body>
+</html>

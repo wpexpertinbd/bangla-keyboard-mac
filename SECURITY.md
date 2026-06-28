@@ -54,14 +54,17 @@ The Windows build (`windows/`, shipped as `bangla-tray.exe`) is a tray keyboard
 that uses a global low-level keyboard hook (`WH_KEYBOARD_LL`) — the standard way an
 input method sees keystrokes. Audit findings:
 
-- **No keystroke logging, storage, or transmission.** The app holds only the
-  *current syllable* in memory and clears it on every word boundary. Source review:
-  **no file, network, registry, or process-exec calls** anywhere in the app or
-  engine (`grep` for `CreateFile`/`WriteFile`/`socket`/`WinHttp`/`RegSetValue`/
-  `ShellExecute`/`system` → none). No telemetry, no auto-update, no analytics.
-- **No DLL-hijacking surface.** The binary is statically linked and imports **only
-  system DLLs** (`kernel32`, `user32`, `gdi32`, `shell32`, `msvcrt`), which load
-  from `System32` / KnownDLLs — no third-party or app-directory DLL is loaded.
+- **No keystroke logging, storage, or transmission (typing path).** For keyboard
+  typing the app holds only the *current syllable* in memory and clears it on every
+  word boundary — no file, network, or telemetry in the hook/engine path. The tray
+  reads one registry value (`HKCU\Software\BanglaKeyboard\VoiceEnabled`) to decide
+  whether to start the optional voice companion, and launches it by a fixed image
+  name (`bangla-voice.exe`) from its own folder. No auto-update, no analytics.
+- **No DLL-hijacking surface (tray).** `bangla-tray.exe` is statically linked and
+  imports **only system DLLs** (`kernel32`, `user32`, `gdi32`, `shell32`,
+  `advapi32`, `msvcrt`). The optional `bangla-voice.exe` additionally loads
+  `WebView2Loader.dll` — a Microsoft redistributable shipped in the install folder —
+  by full intent; it is the only non-system DLL in the product.
 - **Least privilege.** Runs as the normal user (no elevation); the installer is
   **per-user** (`%LocalAppData%`), so installing/uninstalling needs no admin.
 - **Exception-safe hook.** The hook callback is wrapped so no C++ exception can
@@ -72,9 +75,32 @@ input method sees keystrokes. Audit findings:
 - **Engine input safety.** The reordering engine is driven by **compile-time-constant
   tables** generated from the macOS `.keylayout` files; the only runtime input is the
   user's own scan codes (bounded to one byte). No untrusted data crosses into it.
-- **Installer.** No remote code/downloads; the only external call is a fixed
-  `taskkill /im bangla-tray.exe` (constant image name — no injection) to close the
-  running tray before install/uninstall.
+- **Installer.** No remote code/downloads; the only external calls are fixed
+  `taskkill /im bangla-tray.exe` and `/im bangla-voice.exe` (constant image names —
+  no injection) to close the running apps before install/uninstall.
+
+### Voice typing (optional `bangla-voice.exe`)
+
+Opt-in at install (default on; untick to omit the files entirely). It is a separate
+process so a WebView2 issue can never disturb the keyboard hook. Audit notes:
+
+- **Mic only while listening.** The microphone is opened only after you press a voice
+  shortcut and is released the moment you stop; an off-screen WebView2 (loading only
+  our local `voice.html` over a virtual host) does the capture. A tray icon is shown
+  whenever the mic is live.
+- **Nothing recorded or stored.** Audio is held in memory just long enough to send
+  one spoken sentence to the speech service; the recognized text is typed and the
+  buffer dropped. No audio or transcript is written to disk, and nothing is logged.
+- **Network scope is the speech service only.** English uses the browser's built-in
+  Web Speech API; Bangla POSTs each utterance (16 kHz PCM) over HTTPS to Google's
+  free legacy speech endpoint (the same one the open-source `recognize_google` uses)
+  to get correct Bangladeshi text. No other host is contacted; no account, key entry,
+  or payment is involved. This is a free, **unofficial** endpoint, so it may be
+  rate-limited — the app then falls back to the browser's Bangla recognizer.
+- **Local page only.** The WebView2 loads exactly one file we ship (`voice.html`);
+  it browses nothing and renders no remote content. `--autoplay-policy` is the only
+  browser flag set (so capture starts without a click); web security is **not**
+  disabled — the cross-origin POST is done from native code, not the page.
 
 The optional **TSF IME** DLL (`windows/tsf/`, not shipped in the release) is an
 in-proc COM keyboard service; it is experimental and excluded from binary releases
@@ -87,6 +113,13 @@ until reviewed and code-signed.
   the same Windows API a keylogger uses — so some antivirus may heuristically flag
   it. It does **not** exfiltrate anything (see the audit above); a code-signing
   certificate + reputation removes both the SmartScreen prompt and most AV noise.
+
+- **Voice typing is online + third-party.** With voice enabled, spoken audio is sent
+  to a third-party speech service (the browser's Web Speech provider for English;
+  Google's free legacy endpoint for Bangla) to be transcribed — inherent to any cloud
+  STT. Nothing is stored locally, but if you would rather not send audio anywhere,
+  leave the voice option unticked at install (the feature is then fully absent). The
+  Bangla endpoint is unofficial and may be throttled; the app degrades gracefully.
 
 - **Unsigned distribution.** The `.pkg` and `.command` are not code‑signed or
   notarized, so Gatekeeper shows an "unidentified developer" warning and users

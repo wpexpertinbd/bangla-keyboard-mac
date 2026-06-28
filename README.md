@@ -15,7 +15,7 @@
 | OS | What it is | Status | Folder |
 |----|-----------|--------|--------|
 | 🍎 **macOS** | Native `.keylayout` (Unicode + Classic) + smart installer `.pkg`/`.dmg` | ✅ **shipping** | [`macos/`](macos/) |
-| 🪟 **Windows** | Tray app (Bangla Unicode + Classic) running the shared engine, + a TSF IME | ✅ **v1.0.0** | [`windows/`](windows/) |
+| 🪟 **Windows** | Tray app (Bangla Unicode + Classic + **voice typing**) running the shared engine, + a TSF IME | ✅ **v1.1.0** | [`windows/`](windows/) |
 | 🐧 **Linux** | IBus / Fcitx5 engine running the shared engine | ⬜ planned | [`linux/`](linux/) |
 
 **macOS users:** grab the latest `.pkg`/`.dmg` from [**Releases**](../../releases) and see
@@ -42,7 +42,7 @@ three platforms share **one engine** and wrap it in a thin OS-specific shell:
 ├── SPEC.md          # shared engine spec — the contract for all ports
 ├── engine/          # canonical reference engine (Engine.swift) + notes
 ├── macos/           # shipping macOS build (.keylayout + installer)
-├── windows/         # Windows TSF IME (in progress)
+├── windows/         # Windows tray app + voice typing (+ experimental TSF IME)
 ├── linux/           # Linux IBus/Fcitx engine (planned)
 ├── LICENSE          # MIT
 ├── DISCLAIMER.md    # not affiliated with any commercial keyboard/font vendor
