@@ -46,12 +46,12 @@ This build is **not code-signed** (no paid Apple Developer ID), so macOS
 Gatekeeper will block a plain double-click. Pick whichever is easier:
 
 ### ✅ Easiest — the installer package (`.pkg`)
-1. From [**Releases**](../../releases) download **`Bangla Keyboard.pkg`**.
+1. From the [**latest release**](https://github.com/wpexpertinbd/bangla-keyboard/releases/latest) download **`Bangla Keyboard.pkg`**.
 2. **Right-click it → Open → Open** (a normal double-click is blocked).
 3. Follow the installer and enter your admin password.
 
 ### Or — the installer app (adds Reinstall / Uninstall)
-1. From [**Releases**](../../releases) download the **`.dmg`** and open it.
+1. From the [**latest release**](https://github.com/wpexpertinbd/bangla-keyboard/releases/latest) download the **`.dmg`** and open it.
 2. Try to open **`Bangla Keyboard Installer`** once → macOS blocks it.
 3. **System Settings → Privacy & Security**, scroll down, click **"Open Anyway"**,
    then open the app again. It offers **Install / Reinstall / Uninstall**.
