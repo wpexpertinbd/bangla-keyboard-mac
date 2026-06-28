@@ -32,11 +32,12 @@ VOICE TYPING  (optional, needs internet)
   clock while listening — blue = listening, green = hearing your voice — and goes
   away when you stop.
 
-  PUNCTUATION — say the mark's name (online speech gives no punctuation on its own):
+  PUNCTUATION — say the mark's name ALONE (online speech gives no punctuation itself):
     Bangla :  "দাঁড়ি" -> ।    "কমা" -> ,    "প্রশ্ন" -> ?    "বিস্ময়" -> !
     English:  "period"/"full stop" -> .   "comma" -> ,   "question mark" -> ?   "exclamation mark" -> !
-  Example: say "তুমি কেমন আছো প্রশ্ন" and you get "তুমি কেমন আছো?".
-  (Say the punctuation word right after the sentence; nothing is auto-inserted on a pause.)
+  Pause, then say just the mark's name. Example: "তুমি কেমন আছো" <pause> "প্রশ্ন" -> "তুমি কেমন আছো?".
+  The word only becomes a mark when spoken ALONE, so a real word inside a sentence
+  ("আমার একটা প্রশ্ন আছে") stays a word. Nothing is auto-inserted on a pause.
 
   - Bangla uses a free online speech service for correct Bangladeshi spelling: speak
     a sentence, pause briefly, and the text appears. English types as you speak.

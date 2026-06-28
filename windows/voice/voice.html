@@ -26,22 +26,19 @@
     'প্রশ্ন':'?','প্রশ্নবোধক':'?','প্রশ্নচিহ্ন':'?','প্রসন':'?','বিস্ময়':'!','বিস্ময়বোধক':'!','আশ্চর্যবোধক':'!',
     'সেমিকোলন':';','কোলন':':','হাইফেন':'-','ড্যাশ':'-' };
   const PUNCT_EN = { 'comma':',','period':'.','dot':'.','question':'?','exclamation':'!','semicolon':';','colon':':','hyphen':'-','dash':'-' };
+  // A mark is produced ONLY when the WHOLE utterance is exactly the punctuation
+  // word (said alone, after a pause), so real words inside a sentence are untouched.
   function applyPunct(text, m) {
     let s = (text || '').trim(); if (!s) return '';
     const bn = m.indexOf('bn') === 0;
-    if (!bn) s = s.replace(/\bfull stop\b/gi, '.').replace(/\bquestion mark\b/gi, '?')
-                  .replace(/\bexclamation mark\b/gi, '!');
-    const map = bn ? PUNCT_BN : PUNCT_EN;
-    let out = '';
-    for (const w of s.split(/\s+/)) {
-      if (!w) continue;
-      const mk = map[bn ? w : w.toLowerCase()];
-      if (mk) out = out.replace(/\s+$/, '') + mk + ' ';
-      else if (/^[.,?!;:।-]$/.test(w)) out = out.replace(/\s+$/, '') + w + ' ';
-      else out += w + ' ';
+    if (!bn) {
+      const phrase = { 'full stop': '.', 'question mark': '?', 'exclamation mark': '!' };
+      if (phrase[s.toLowerCase()]) return phrase[s.toLowerCase()] + ' ';
     }
-    if (!bn) out = out.replace(/(^\s*|[.!?]\s+)([a-z])/g, (x, p, c) => p + c.toUpperCase());
-    return out.trim() + ' ';
+    const map = bn ? PUNCT_BN : PUNCT_EN;
+    const mk = map[bn ? s : s.toLowerCase()];
+    if (mk) return mk + ' ';   // standalone command word -> the mark
+    return s + ' ';            // normal speech -> unchanged
   }
 
   // ---- Web Speech: English, and the bn-IN fallback -------------------------

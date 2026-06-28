@@ -74,12 +74,14 @@ static void sendBackspace(int n) {
 static bool isPunctMark(wchar_t c) {
     return c == L'\x0964' || c == L',' || c == L'?' || c == L'!' || c == L';' || c == L':' || c == L'.';
 }
-// Google STT returns NO punctuation, so the user speaks it: "দাঁড়ি"->। "কমা"->,
-// etc. Replace those spoken words with the mark, attached to the preceding text.
+// Google STT returns NO punctuation, so the user speaks it. To avoid converting a
+// real word ("আমার একটা প্রশ্ন আছে"), a mark is produced ONLY when the WHOLE
+// utterance is exactly the punctuation word (said alone, after a pause). Anything
+// with other words is passed through unchanged.
 static std::wstring applyBanglaPunct(const std::wstring& in) {
     auto markFor = [](const std::wstring& w) -> const wchar_t* {
         if (w == L"দাঁড়ি" || w == L"দাড়ি" || w == L"দাড়ী" || w == L"ফুলস্টপ") return L"\x0964";  // ।
-        if (w == L"কমা" || w == L"কহনা" || w == L"কহানা" || w == L"কম্মা" || w == L"কমা।") return L",";
+        if (w == L"কমা" || w == L"কহনা" || w == L"কহানা" || w == L"কম্মা") return L",";
         if (w == L"প্রশ্ন" || w == L"প্রশ্নবোধক" || w == L"প্রশ্নচিহ্ন" || w == L"প্রসন") return L"?";
         if (w == L"বিস্ময়" || w == L"বিস্ময়বোধক" || w == L"আশ্চর্যবোধক") return L"!";
         if (w == L"সেমিকোলন") return L";";
@@ -87,19 +89,13 @@ static std::wstring applyBanglaPunct(const std::wstring& in) {
         if (w == L"হাইফেন" || w == L"ড্যাশ") return L"-";
         return nullptr;
     };
-    std::wstring out; size_t i = 0, n = in.size();
-    while (i < n) {
-        while (i < n && in[i] == L' ') ++i;
-        size_t j = i; while (j < n && in[j] != L' ') ++j;
-        if (j > i) {
-            std::wstring w = in.substr(i, j - i);
-            const wchar_t* mark = markFor(w);
-            if (mark) { while (!out.empty() && out.back() == L' ') out.pop_back(); out += mark; out += L' '; }
-            else { out += w; out += L' '; }
-        }
-        i = j;
-    }
-    return out;
+    size_t a = in.find_first_not_of(L' ');
+    if (a == std::wstring::npos) return in;
+    size_t b = in.find_last_not_of(L' ');
+    std::wstring w = in.substr(a, b - a + 1);
+    const wchar_t* mark = markFor(w);             // whole utterance == one command word?
+    if (mark) return std::wstring(mark) + L" ";   // standalone -> the mark
+    return in + L" ";                             // normal speech -> unchanged
 }
 // inject, fixing the space before a leading punctuation mark across utterances
 // (e.g. "...খাই" then a separate "দাঁড়ি" -> backspace the space -> "...খাই।").
