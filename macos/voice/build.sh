@@ -12,7 +12,11 @@ rm -rf "$OUT"; mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 
 # compile (universal arm64+x86_64 where the SDK allows; arm64 minimum)
 swiftc -O "$HERE/Sources/"*.swift -o "$APP/Contents/MacOS/BanglaVoice" \
-  -framework AppKit -framework AVFoundation -framework CoreGraphics -framework Carbon
+  -framework AppKit -framework AVFoundation -framework CoreGraphics -framework Carbon \
+  -framework Speech
+
+# app icon (reuse the brand flag icon)
+cp "$HERE/../src/keylayouts/Bangla Unicode.icns" "$APP/Contents/Resources/AppIcon.icns"
 
 cat > "$APP/Contents/Info.plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
@@ -22,6 +26,7 @@ cat > "$APP/Contents/Info.plist" <<PLIST
   <key>CFBundleDisplayName</key><string>Bangla Voice</string>
   <key>CFBundleIdentifier</key><string>$APPID</string>
   <key>CFBundleExecutable</key><string>BanglaVoice</string>
+  <key>CFBundleIconFile</key><string>AppIcon</string>
   <key>CFBundlePackageType</key><string>APPL</string>
   <key>CFBundleShortVersionString</key><string>$VERSION</string>
   <key>CFBundleVersion</key><string>$VERSION</string>
